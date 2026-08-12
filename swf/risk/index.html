@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>risk - ShakesGames</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fdf6e3;
+            color: #1e4d2b;
+        }
+
+        .header {
+            background-color: #333;
+            padding: 10px 20px;
+            text-align: left;
+        }
+
+        .header a {
+            color: #1e4d2b;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        .categories {
+            background-color: #444;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .categories a {
+            margin: 0 10px;
+            color: #1e4d2b;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+
+        .game-container {
+            width: 80%;
+            height: 650px; /* Adjusted height */
+            margin: 20px auto;
+            background-color: #555;
+            position: relative;
+            overflow: hidden; /* Hides overflow from the container */
+        }
+
+
+
+        .game-container {
+            width: 80%;
+            height: 600px;
+            margin: 20px auto;
+            background-color: #555;
+            position: relative;
+            overflow: hidden; /* Hides overflow from the container */
+        }
+
+        .game-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block; /* Ensuring display block */
+        }
+
+        .game-bar {
+    .fullscreen-button {
+        padding: 5px 10px;
+        background-color: #333;
+        color: #fdf6e3;
+        border: none;
+        cursor: pointer;
+    }
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #444;
+            padding: 10px;
+            margin: 0 auto;
+            width: 80%;
+        }
+
+        .fullscreen-button {
+            padding: 5px 10px;
+            background-color: #333;
+            color: #fdf6e3;
+            border: none;
+            cursor: pointer;
+        }
+
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+    }
+    .ad {
+        width: 120px;
+        height: 300px;
+        background-color: #333;
+        margin: 0 10px;
+    }
+    .game-container {
+        flex-shrink: 0;
+    }
+        
+      *:not(iframe) { cursor: default; }
+a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+
+      a:hover, button:hover, .card:hover, .site-title:hover { animation: hoverShake 0.35s ease-in-out infinite; }
+      @keyframes hoverShake { 0%,100% { transform: translate(0,0) rotate(0deg); } 20% { transform: translate(-2px,1px) rotate(-0.6deg); } 40% { transform: translate(2px,-1px) rotate(0.6deg); } 60% { transform: translate(-1px,-1px) rotate(-0.4deg); } 80% { transform: translate(1px,1px) rotate(0.4deg); } }
+    </style>
+
+
+</head>
+<body>
+    <div class="header">
+        <a href="../../index.html" class="logo">ShakesGames</a>
+        <a href="../../index.html" class="logo" style="color: orange;">XP</a>
+    </div>
+
+    <div class="categories">
+        <a href="../../new.html">New</a>
+        <a href="../../all.html">All</a>
+
+    </div>
+
+    
+    <div class="content">
+        <div class="ad ad-left">
+            
+
+        </div>
+    <div class="game-container" id="gameContainer">
+        <!-- Game Embed Will Go Here -->
+    </div>
+        <div class="ad ad-right">
+            
+
+        </div>
+    </div>
+    
+
+    <div class="game-bar">
+        <span id="gameTitle">Game Title</span>
+<span id="favoriteIcon" class="favorite-icon" style="cursor: pointer;">&#9734;</span>
+        <button id="fullscreenButton" class="fullscreen-button">Fullscreen</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var fullscreenButton = document.getElementById('fullscreenButton');
+            var gameContainer = document.getElementById('gameContainer');
+            var gameTitle = document.getElementById('gameTitle');
+
+            function embedGame(gamePath, title) {
+                var iframe = document.createElement('iframe');
+                iframe.src = gamePath;
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+                gameContainer.innerHTML = '';
+                gameContainer.appendChild(iframe);
+                gameTitle.textContent = title;
+            }
+
+            embedGame('./game/base.html', 'risk');
+
+            fullscreenButton.addEventListener('click', function() {
+                if (gameContainer.requestFullscreen) {
+                    gameContainer.requestFullscreen();
+                } else if (gameContainer.webkitRequestFullscreen) {
+                    gameContainer.webkitRequestFullscreen();
+                } else if (gameContainer.msRequestFullscreen) {
+                    gameContainer.msRequestFullscreen();
+                }
+            });
+        });
+    </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const favoriteIcon = document.getElementById('favoriteIcon');
+        const gameTitle = document.getElementById('gameTitle').textContent;
+
+        // Function to toggle the favorite status
+        function toggleFavorite() {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+            const imagePath = './img/' + gameTitle + '.jpg'; // Adjust based on how you store the image paths
+
+            if (favorites[gameTitle]) {
+                delete favorites[gameTitle];
+            } else {
+                favorites[gameTitle] = { path: `./swf/${gameTitle}/base.html`, image: imagePath };
+            }
+
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoriteIcon(favorites, gameTitle);
+        }
+
+        // Function to update the star icon
+        function updateFavoriteIcon(favorites, title) {
+            if (favorites[title]) {
+                favoriteIcon.innerHTML = '&#9733;'; // Filled star for favorited games
+            } else {
+                favoriteIcon.innerHTML = '&#9734;'; // Empty star for non-favorited games
+            }
+        }
+
+        // Initial check to set the correct state of the star icon
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '{}');
+        updateFavoriteIcon(favorites, gameTitle);
+
+        // Event listener for the favorite icon
+        favoriteIcon.addEventListener('click', function() {
+            toggleFavorite();
+        });
+    });
+    </script>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+    // JavaScript code here
+});
+</script>
+
+<script>
+    window.onload = function() {
+        var titleElement = document.getElementById('gameTitle');
+        var title = titleElement.textContent;
+        
+        fetch('https://script.google.com/macros/s/AKfycbx1xYwL2QqkOQHyeCWIVSMVLP_XXts5zpb0M-vbvlRl1MpRYYcv4NI-i8OaGc0YP0wpsg/exec?title=' + encodeURIComponent(title), {
+            method: 'GET'
+        })
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.error('Error:', error));
+    };
+</script>
+    </body>
+</html>

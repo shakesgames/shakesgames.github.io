@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | Shake's Games</title>
+		<link rel="icon" type="image/svg+xml" href="img/pear-cursor.svg" />
+    <style>
+      body {
+        font-family: "Times New Roman", Times, serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fdf6e3;
+        color: #1e4d2b;
+        cursor: default;
+      }
+      .navbar {
+        background-color: rgba(253, 246, 227, 0.95);
+        padding: 15px 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      }
+      .logo {
+        font-family: "Times New Roman", Times, serif;
+        color: #1e4d2b;
+        font-weight: bold;
+        font-size: 2.1rem;
+        text-decoration: none;
+        margin: 0;
+      }
+      .back-link {
+        color: #1e4d2b;
+        text-decoration: none;
+      }
+      .back-link:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 720px;
+        margin: 30px auto;
+        padding: 0 16px;
+      }
+      .card {
+        background: #f3ead1;
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+      .card h2 {
+        margin-top: 0;
+      }
+      .card p,
+      .card li {
+        color: #1e4d2b;
+        line-height: 1.6;
+      }
+      .card ul {
+        padding-left: 20px;
+      }
+      a {
+        color: #1e4d2b;
+      }
+      .discord-btn {
+        display: inline-block;
+        background: #f3ead1;
+        border: 1px solid rgba(30, 77, 43, 0.35);
+        color: #1e4d2b;
+        padding: 8px 16px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        text-decoration: none;
+        margin-top: 10px;
+      }
+      .discord-btn:hover {
+        background: #e9dbb4;
+      }
+    
+		*:not(iframe) { cursor: default; }
+a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+
+		a:hover,
+		button:hover,
+		.card:hover,
+		.hero-gif:hover,
+		.updates-paragraph-text:hover,
+		.search-bar:hover,
+		.site-title:hover,
+		input[type="text"]:hover {
+		  animation: hoverShake 0.35s ease-in-out infinite;
+		}
+		@keyframes hoverShake {
+		  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+		  20% { transform: translate(-2px, 1px) rotate(-0.6deg); }
+		  40% { transform: translate(2px, -1px) rotate(0.6deg); }
+		  60% { transform: translate(-1px, -1px) rotate(-0.4deg); }
+		  80% { transform: translate(1px, 1px) rotate(0.4deg); }
+		}
+	</style>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="index.html" class="logo">Shake's Games</a>
+      <a href="index.html" class="back-link">← Back to games</a>
+    </div>
+    <div class="container">
+      <div class="card">
+        <h2>What is Shake's Games?</h2>
+        <p>
+          Shake's Games is a free unblocked games site you can play anonymously.
+        </p>
+      </div>
+      <div class="card">
+        <h2>Features</h2>
+        <ul>
+          <li>1000+ unblocked games</li>
+          <li>Tab cloaking (disguise the tab as Google, Classroom, Canvas, …)</li>
+          <li>Panic button + <strong>Ctrl+Shift+X</strong> quick escape</li>
+          <li>Open-in-about:blank mode</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>Request a game</h2>
+        <p>
+          Want a game added? Tell us which one — if it's playable in a browser,
+          we'll try to add it.
+        </p>
+        <!-- Put your Discord invite link here (replace href="#") -->
+        <a href="#" class="discord-btn" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <div class="card">
+        <h2>Privacy</h2>
+        <p>
+          The site owner doesn't collect your data.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

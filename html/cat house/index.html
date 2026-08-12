@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Cat House - ShakesGames</title>
+    <style>
+      body {
+        font-family: "Times New Roman", Times, serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fdf6e3;
+        color: #1e4d2b;
+      }
+
+      .header {
+        background-color: #f3ead1;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px solid #1e4d2b;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .header-logo {
+        text-decoration: none;
+        font-size: 36px;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      .header-logo span:nth-child(1) {
+        color: #1e4d2b;
+      }
+
+      .header-logo span:nth-child(2) {
+        color: #1e4d2b;
+      }
+
+      .header-logo:hover span:nth-child(1) {
+        color: #1e4d2b;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 30px;
+      }
+
+      .nav-links a {
+        color: #1e4d2b;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #1e4d2b;
+      }
+
+      .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40px;
+      }
+
+      .ad {
+        width: 120px;
+        height: 300px;
+        background-color: #fbf5e2;
+        margin: 0 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .game-container {
+        flex-shrink: 0;
+        width: 85%;
+        height: 700px;
+        margin: 20px auto;
+        background-color: #f3ead1;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+      }
+
+      .game-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+
+      .game-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f3ead1;
+        padding: 20px;
+        margin: 30px auto;
+        width: 85%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+      }
+
+      .fullscreen-button {
+        padding: 10px 20px;
+        background-color: #1e4d2b;
+        color: #fdf6e3;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-weight: bold;
+      }
+
+      .fullscreen-button:hover {
+        background-color: #173d20;
+      }
+
+      .cards-section {
+        background-color: #f3ead1;
+        padding: 50px;
+        text-align: center;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+        margin: 40px;
+      }
+
+      .card-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .card {
+        display: block;
+        width: 200px;
+        text-align: center;
+        background-color: #fbf5e2;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+        overflow: hidden;
+        text-decoration: none;
+        color: #1e4d2b;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 1);
+      }
+
+      .card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+
+      .card figcaption {
+        padding: 15px;
+        font-size: 16px;
+        color: #1e4d2b;
+      }
+    
+      *:not(iframe) { cursor: default; }
+a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+
+      a:hover, button:hover, .card:hover, .site-title:hover { animation: hoverShake 0.35s ease-in-out infinite; }
+      @keyframes hoverShake { 0%,100% { transform: translate(0,0) rotate(0deg); } 20% { transform: translate(-2px,1px) rotate(-0.6deg); } 40% { transform: translate(2px,-1px) rotate(0.6deg); } 60% { transform: translate(-1px,-1px) rotate(-0.4deg); } 80% { transform: translate(1px,1px) rotate(0.4deg); } }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <a href="../../index.html" class="header-logo"><h1 class="site-title" style="font-family: Times New Roman, Times, serif; color: #1e4d2b; font-weight: bold; font-size: 2.1rem; margin: 0">Shake's Games</h1></a>
+    </div>
+
+    <div class="content">
+      <div class="ad ad-left">
+        
+        
+      </div>
+      <div class="game-container" id="gameContainer">
+        <!-- Game Embed Will Go Here -->
+      </div>
+      <div class="ad ad-right">
+        
+        
+      </div>
+    </div>
+
+    <div class="game-bar">
+      <span id="gameTitle">Game Title</span>
+      <span
+        id="favoriteIcon"
+        class="favorite-icon"
+        style="cursor: pointer; font-size: 24px"
+        >&#9734;</span
+      >
+      <button id="fullscreenButton" class="fullscreen-button">
+        Fullscreen
+      </button>
+    </div>
+
+    <div class="cards-section">
+      <h2>Recommended Games</h2>
+      <div class="card-container" id="cardContainer">
+        <!-- Cards will be loaded here -->
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var fullscreenButton = document.getElementById("fullscreenButton");
+        var gameContainer = document.getElementById("gameContainer");
+        var gameTitle = document.getElementById("gameTitle");
+
+        function embedGame(gamePath, title) {
+          var iframe = document.createElement("iframe");
+          iframe.src = gamePath;
+          gameContainer.innerHTML = "";
+          gameContainer.appendChild(iframe);
+          gameTitle.textContent = title;
+        }
+
+        embedGame("./game/index.html", "Cat House");
+
+        fullscreenButton.addEventListener("click", function () {
+          if (gameContainer.requestFullscreen) {
+            gameContainer.requestFullscreen();
+          } else if (gameContainer.webkitRequestFullscreen) {
+            gameContainer.webkitRequestFullscreen();
+          } else if (gameContainer.msRequestFullscreen) {
+            gameContainer.msRequestFullscreen();
+          }
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const favoriteIcon = document.getElementById("favoriteIcon");
+        const gameTitle = document.getElementById("gameTitle").textContent;
+
+        function toggleFavorite() {
+          let favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
+          const imagePath = "./img/" + gameTitle + ".jpg";
+
+          if (favorites[gameTitle]) {
+            delete favorites[gameTitle];
+          } else {
+            favorites[gameTitle] = {
+              path: `./html/${gameTitle}/index.html`,
+              image: imagePath,
+            };
+          }
+
+          localStorage.setItem("favorites", JSON.stringify(favorites));
+          updateFavoriteIcon(favorites, gameTitle);
+        }
+
+        function updateFavoriteIcon(favorites, title) {
+          if (favorites[title]) {
+            favoriteIcon.innerHTML = "&#9733;";
+          } else {
+            favoriteIcon.innerHTML = "&#9734;";
+          }
+        }
+
+        const favorites = JSON.parse(localStorage.getItem("favorites") || "{}");
+        updateFavoriteIcon(favorites, gameTitle);
+
+        favoriteIcon.addEventListener("click", function () {
+          toggleFavorite();
+        });
+      });
+    </script>
+
+    <script>
+      window.onload = function () {
+        var titleElement = document.getElementById("gameTitle");
+        var title = titleElement.textContent;
+
+        fetch(
+          "https://script.google.com/macros/s/AKfycbx1xYwL2QqkOQHyeCWIVSMVLP_XXts5zpb0M-vbvlRl1MpRYYcv4NI-i8OaGc0YP0wpsg/exec?title=" +
+            encodeURIComponent(title),
+          {
+            method: "GET",
+          }
+        )
+          .then((response) => response.text())
+          .then((result) => console.log(result))
+          .catch((error) => console.error("Error:", error));
+      };
+    </script>
+    <script type="module">
+      import games from "../../cards-data.js";
+      import { siteMapping } from "../../site-mapping.js";
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const cardContainer = document.getElementById("cardContainer");
+
+        function adjustHrefPath(path, page) {
+          // Remove leading './' or '/' from the path
+          path = path.replace(/^\.\//, "").replace(/^\//, "");
+
+          if (page == 2) {
+            // For page 2 games
+            const currentHost = window.location.hostname;
+            const secondPageLink = siteMapping[currentHost];
+            if (secondPageLink) {
+              // Ensure proper concatenation
+              const adjustedSecondPageLink = secondPageLink.replace(/\/$/, "");
+              const adjustedPath = "/" + path;
+              return adjustedSecondPageLink + adjustedPath;
+            } else {
+              // If currentHost not found in siteMapping, log an error
+              console.error(
+                `Current host "${currentHost}" not found in siteMapping. Unable to adjust href for page 2 game.`
+              );
+              return "#"; // Fallback href
+            }
+          } else {
+            // For page 1 games, adjust the path to go back two directories
+            return "../../" + path;
+          }
+        }
+
+        function adjustImgPath(path, page) {
+          // Remove leading './', '/', or 'img/' from the path
+          path = path
+            .replace(/^\.\//, "")
+            .replace(/^\//, "")
+            .replace(/^img\//, "");
+
+          if (page == 2) {
+            // For page 2 games, get image from the second page link
+            const currentHost = window.location.hostname;
+            const secondPageLink = siteMapping[currentHost];
+            if (secondPageLink) {
+              // Ensure proper concatenation
+              const adjustedSecondPageLink = secondPageLink.replace(/\/$/, "");
+              const adjustedPath = "/img/" + path;
+              return adjustedSecondPageLink + adjustedPath;
+            } else {
+              // If currentHost not found in siteMapping, log an error
+              console.error(
+                `Current host "${currentHost}" not found in siteMapping. Unable to adjust image path for page 2 game.`
+              );
+              return "../../img/" + path; // Fallback to local image
+            }
+          } else {
+            // For page 1 games, adjust the path to go back two directories
+            return "../../img/" + path;
+          }
+        }
+
+        function getCardHTML(gameObject) {
+          const { href, imgSrc, name, page } = gameObject;
+
+          // Adjust the href and imgSrc paths
+          const adjustedHref = adjustHrefPath(href, page);
+          const adjustedImgSrc = adjustImgPath(imgSrc, page);
+
+          // Create the card element
+          const card = document.createElement("a");
+          card.className = "card";
+          card.href = adjustedHref;
+
+          const img = document.createElement("img");
+          img.src = adjustedImgSrc;
+          img.alt = name;
+          card.appendChild(img);
+
+          const figcaption = document.createElement("figcaption");
+          figcaption.textContent = name;
+          card.appendChild(figcaption);
+
+          return card;
+        }
+
+        // Generate and display random recommended games
+        const randomGames = games.sort(() => 0.5 - Math.random()).slice(0, 10);
+        randomGames.forEach((game) => {
+          const card = getCardHTML(game);
+          cardContainer.appendChild(card);
+        });
+      });
+    </script>
+  </body>
+</html>

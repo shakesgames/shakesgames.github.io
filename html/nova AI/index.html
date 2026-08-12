@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova AI - ShakesGames</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    
+      *:not(iframe) { cursor: default; }
+a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+
+      a:hover, button:hover, .card:hover, .site-title:hover { animation: hoverShake 0.35s ease-in-out infinite; }
+      @keyframes hoverShake { 0%,100% { transform: translate(0,0) rotate(0deg); } 20% { transform: translate(-2px,1px) rotate(-0.6deg); } 40% { transform: translate(2px,-1px) rotate(0.6deg); } 60% { transform: translate(-1px,-1px) rotate(-0.4deg); } 80% { transform: translate(1px,1px) rotate(0.4deg); } }
+    </style>
+</head>
+<body>
+    <iframe src="https://nova-chat-0936ca00546b.herokuapp.com"></iframe>
+</body>
+</html>

@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      (function () {
+        var customTitle = localStorage.getItem("customTitle");
+        var defaultTitle = document.title;
+        if (
+          customTitle &&
+          customTitle.trim() !== "" &&
+          customTitle !== defaultTitle
+        ) {
+          var titleInterval = setInterval(function () {
+            if (document.title !== customTitle) {
+              document.title = customTitle;
+            }
+          }, 500);
+          setTimeout(function () {
+            clearInterval(titleInterval);
+          }, 15000);
+        }
+        setTimeout(function () {
+          var customFavicon = localStorage.getItem("customFavicon");
+          if (customFavicon && customFavicon.trim() !== "") {
+            var favEl = document.querySelector('link[rel*="icon"]');
+            if (favEl) {
+              favEl.href = customFavicon;
+            } else {
+              var newFav = document.createElement("link");
+              newFav.rel = "icon";
+              newFav.href = customFavicon;
+              document.head.appendChild(newFav);
+            }
+          }
+        }, 2500);
+      })();
+    </script>
+    <title>Loading... - Shake's Games</title>
+		<link rel="icon" type="image/svg+xml" href="../img/pear-cursor.svg" />
+    <style>
+      body {
+        font-family: "Times New Roman", Times, serif;
+        margin: 0;
+        padding: 0;
+        background-color: #fdf6e3;
+        color: #1e4d2b;
+        cursor: default;
+      }
+
+      .header {
+        background-color: #f3ead1;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 3px solid #1e4d2b;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+      }
+
+      .menu-icon {
+        position: absolute;
+        left: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #1e4d2b;
+        z-index: 1001;
+      }
+
+      .header-logo {
+        text-decoration: none;
+        font-size: 36px;
+        font-weight: bold;
+        transition: color 0.3s;
+      }
+
+      .header-logo span:nth-child(1) {
+        color: #1e4d2b;
+      }
+
+      .header-logo span:nth-child(2) {
+        color: #ffd700;
+      }
+
+      .header-logo:hover span:nth-child(1) {
+        color: #1e4d2b;
+      }
+
+      .slide-menu {
+        position: fixed;
+        top: 0;
+        height: 100%;
+        width: 350px;
+        background-color: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        color: #1e4d2b;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+        z-index: 1003;
+        transition: transform 0.4s ease;
+        overflow-y: auto;
+        transform: translateX(-100%);
+      }
+
+      .profile-picture-container {
+        width: 100px;
+        aspect-ratio: 1;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+      }
+
+      .profile-picture-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+      }
+
+      .profile-picture {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .user-details-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-block: 20px;
+        gap: 10px;
+      }
+
+      .profile-top-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .username-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .username-text {
+        font-size: 1.5rem;
+        color: #1e4d2b;
+      }
+
+      .categories {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .categories > a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.3);
+        text-decoration: none;
+        color: #1e4d2b;
+        transition: all 0.3s ease;
+        margin-left: 20px;
+        margin-right: 20px;
+        text-align: center;
+        font-size: 1.1rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .categories > a::after {
+        content: "";
+        background: rgba(255, 255, 255, 0.1);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 0;
+        height: 0;
+        transition: 0.4s ease-out;
+      }
+
+      .categories > a:hover::after {
+        width: 400px;
+        height: 400px;
+      }
+
+      .categories > a:hover {
+        transform: scale(0.95);
+      }
+
+      span.new-feature-tag {
+        background: orange;
+        padding: 0.2rem 0.4rem;
+        margin-left: 1rem;
+        font-size: 0.6rem;
+        color: black;
+        text-transform: uppercase;
+      }
+
+      .xp-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 10px auto;
+        width: 80%;
+      }
+
+      .xp-level-text {
+        color: #1e4d2b;
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+      }
+
+      .xp-bar {
+        position: relative;
+        width: 100%;
+        height: 20px;
+        background: black;
+        overflow: hidden;
+      }
+
+      .xp-bar-fill {
+        height: 100%;
+        background: linear-gradient(to right, #47fced, #0af);
+        width: 0%;
+        transition: width 0.5s ease;
+      }
+
+      .xp-bar-text {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        color: #1e4d2b;
+        font-size: 0.8rem;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 40px;
+      }
+
+      .ad {
+        width: 120px;
+        height: 300px;
+        background-color: #fbf5e2;
+        margin: 0 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .game-container {
+        flex-shrink: 0;
+        width: 85%;
+        height: 700px;
+        margin: 20px auto;
+        background-color: #f3ead1;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+      }
+
+      .game-container iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+
+      .game-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f3ead1;
+        padding: 20px;
+        margin: 30px auto;
+        width: 85%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+      }
+
+      .fullscreen-button {
+        padding: 10px 20px;
+        background-color: #1e4d2b;
+        color: #fdf6e3;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        font-weight: bold;
+      }
+
+      .fullscreen-button:hover {
+        background-color: #173d20;
+      }
+
+      .cards-section {
+        background-color: #f3ead1;
+        padding: 50px;
+        text-align: center;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.7);
+        margin: 40px;
+      }
+
+      .card-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .card {
+        display: block;
+        width: 200px;
+        text-align: center;
+        background-color: #fbf5e2;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+        overflow: hidden;
+        text-decoration: none;
+        color: #1e4d2b;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 1);
+      }
+
+      .card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+
+      .card figcaption {
+        padding: 15px;
+        font-size: 16px;
+        color: #1e4d2b;
+      }
+
+      #redirectMessage {
+        display: none;
+        text-align: center;
+        margin-top: 50px;
+      }
+
+      #redirectMessage h2 {
+        color: #1e4d2b;
+      }
+
+      #redirectMessage p {
+        color: #1e4d2b;
+      }
+
+      #redirectMessage a {
+        color: #1e4d2b;
+        text-decoration: underline;
+      }
+
+      @media (max-width: 768px) {
+        .content {
+          flex-direction: column;
+        }
+
+        .ad {
+          margin: 20px 0;
+        }
+
+        .game-container {
+          width: 95%;
+          height: 500px;
+        }
+
+        .game-bar {
+          width: 95%;
+        }
+      }
+    
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+      .site-title {
+        font-family: "Times New Roman", Times, serif;
+        color: #1e4d2b;
+        font-weight: bold;
+        font-size: 2.1rem;
+        margin: 0;
+        white-space: nowrap;
+      }
+      .search-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .search-bar {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        width: 275px;
+        border: 1px solid rgba(30, 77, 43, 0.35);
+        background-color: #fbf5e2;
+        color: #1e4d2b;
+        box-shadow: inset 0 0 10px rgba(30, 77, 43, 0.08);
+        font-family: "Times New Roman", Times, serif;
+      }
+      .search-bar::placeholder {
+        color: rgba(30, 77, 43, 0.55);
+      }
+      .search-bar:focus {
+        outline: none;
+        background-color: #f8efd0;
+      }
+      .search-results {
+        position: fixed;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 52px;
+        background-color: rgba(253, 246, 227, 0.98);
+        border: 1px solid rgba(30, 77, 43, 0.25);
+        width: 313px;
+        display: none;
+        overflow: hidden;
+        z-index: 1000;
+        box-shadow: 0 10px 40px rgba(30, 77, 43, 0.2);
+      }
+      .search-results a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 12px;
+        color: #1e4d2b;
+        text-decoration: none;
+        border-bottom: 1px solid rgba(30, 77, 43, 0.1);
+      }
+      .search-results a:hover {
+        background: #f3ead1;
+      }
+      .search-results img {
+        width: 36px;
+        height: 36px;
+        object-fit: cover;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-btn {
+        background: #f3ead1;
+        border: 1px solid rgba(30, 77, 43, 0.35);
+        color: #1e4d2b;
+        padding: 8px 16px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        text-decoration: none;
+        font-family: "Times New Roman", Times, serif;
+      }
+      .nav-btn:hover {
+        background: #e9dbb4;
+      }
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 2000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .settings-modal {
+        background: #fdf6e3;
+        border: 1px solid rgba(30, 77, 43, 0.3);
+        max-width: 480px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        font-family: "Times New Roman", Times, serif;
+      }
+      .settings-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        border-bottom: 1px solid rgba(30, 77, 43, 0.3);
+      }
+      .settings-header h2 {
+        margin: 0;
+        color: #1e4d2b;
+        font-size: 1.2rem;
+      }
+      .settings-close {
+        background: none;
+        border: none;
+        color: #1e4d2b;
+        font-size: 1.6rem;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .settings-body {
+        padding: 20px;
+      }
+
+		*:not(iframe) { cursor: default; }
+a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+
+		a:hover,
+		button:hover,
+		.card:hover,
+		.hero-gif:hover,
+		.updates-paragraph-text:hover,
+		.search-bar:hover,
+		.site-title:hover,
+		input[type="text"]:hover {
+		  animation: hoverShake 0.35s ease-in-out infinite;
+		}
+		@keyframes hoverShake {
+		  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+		  20% { transform: translate(-2px, 1px) rotate(-0.6deg); }
+		  40% { transform: translate(2px, -1px) rotate(0.6deg); }
+		  60% { transform: translate(-1px, -1px) rotate(-0.4deg); }
+		  80% { transform: translate(1px, 1px) rotate(0.4deg); }
+		}
+		#panicBtn:hover {
+		  animation: panicShake 0.3s ease-in-out infinite;
+		}
+		@keyframes panicShake {
+		  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+		  10% { transform: translate(-8px, 4px) rotate(-5deg); }
+		  20% { transform: translate(7px, -6px) rotate(5deg); }
+		  30% { transform: translate(-6px, -5px) rotate(-4deg); }
+		  40% { transform: translate(8px, 6px) rotate(4deg); }
+		  50% { transform: translate(-7px, 4px) rotate(-5deg); }
+		  60% { transform: translate(6px, -4px) rotate(4deg); }
+		  70% { transform: translate(-5px, -6px) rotate(-4deg); }
+		  80% { transform: translate(7px, 5px) rotate(5deg); }
+		  90% { transform: translate(-6px, 4px) rotate(-4deg); }
+		}
+		.panic-row {
+		  transition: background-color 0.2s ease;
+		}
+		.panic-row:hover {
+		  background-color: #e97a84 !important;
+		  animation: rowShake 0.3s ease-in-out infinite;
+		}
+		@keyframes rowShake {
+		  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+		  20% { transform: translate(-4px, 2px) rotate(-2.5deg); }
+		  40% { transform: translate(4px, -2px) rotate(2.5deg); }
+		  60% { transform: translate(-3px, -2px) rotate(-2deg); }
+		  80% { transform: translate(3px, 2px) rotate(2deg); }
+		}
+	
+		.switch {
+		  position: relative;
+		  display: inline-block;
+		  width: 54px;
+		  height: 30px;
+		  flex-shrink: 0;
+		}
+		.switch input {
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+		  position: absolute;
+		}
+		.slider {
+		  position: absolute;
+		  cursor: pointer;
+		  inset: 0;
+		  background-color: #b98a90;
+		  transition: background-color 0.2s ease;
+		  border-radius: 30px;
+		}
+		.slider:before {
+		  content: "";
+		  position: absolute;
+		  height: 24px;
+		  width: 24px;
+		  left: 3px;
+		  bottom: 3px;
+		  background-color: #fff;
+		  border-radius: 50%;
+		  transition: transform 0.2s ease;
+		  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+		}
+		.switch input:checked + .slider {
+		  background-color: #dc3545;
+		}
+		.switch input:checked + .slider:before {
+		  transform: translateX(24px);
+		}
+	</style>
+  </head>
+  <body>
+    <div
+      id="secretLink"
+      title="Secret Menu"
+      style="
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 10px;
+        height: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+      "
+    ></div>
+
+    <div class="header">
+      <a href="../index.html" style="text-decoration: none"><h1 class="site-title">Shake's Games</h1></a>
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-bar"
+          placeholder="search"
+          id="searchInput"
+          autocomplete="off"
+        />
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="nav-actions">
+        <!-- Put your Discord invite link here (replace href="#") -->
+        <a href="#" id="discordBtn" class="nav-btn" target="_blank" rel="noopener">Discord</a>
+        <button id="settingsBtn" class="nav-btn">Settings</button>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="game-container" id="gameContainer"></div>
+    </div>
+
+    <div class="game-bar">
+      <span id="gameTitle">Loading...</span>
+      <button id="fullscreenButton" class="fullscreen-button">
+        Fullscreen
+      </button>
+    </div>
+
+    <div class="cards-section">
+      <h2>Recommended Games</h2>
+      <div class="card-container" id="cardContainer"></div>
+    </div>
+
+    <div id="redirectMessage">
+      <h2>Redirecting to the game...</h2>
+      <p>
+        If you are not redirected automatically,
+        <a href="#" id="manualRedirectLink">click here</a>.
+      </p>
+    </div>
+
+
+
+
+
+    <script type="module">
+      import games from "../cards-data.js";
+      import { siteMapping } from "../site-mapping.js";
+
+      document.addEventListener("DOMContentLoaded", async function () {
+        function getCurrentKeyHostOnly() {
+          const host = window.location.host;
+          return host;
+        }
+
+        function getBaseURLForPage(page) {
+          const currentKey = getCurrentKeyHostOnly();
+          if (!page || page === 1) {
+            return "../";
+          }
+
+          const arr = siteMapping[currentKey];
+          if (!arr) {
+            if (page === 2) {
+              return "../shakesgames2/";
+            } else if (page === 3) {
+              return "../shakesgames3/";
+            } else if (page === 4) {
+              return "../shakesgames4/";
+            }  else if (page === 5) {
+                return "../shakesgames-5/";
+            } else {
+              return "../";
+            }
+          }
+          const index = page - 2;
+          if (arr[index]) {
+            return arr[index].replace(/^\.\/$/, "../");
+          } else {
+            if (page === 2) {
+              return "../shakesgames2/";
+            } else if (page === 3) {
+              return "../shakesgames3/";
+            } else if (page === 4) {
+              return "../shakesgames4/";
+            } else if (page === 5) {
+              return "../shakesgames-5/";
+            } else {
+              return "../";
+            }
+          }
+        }
+
+        function adjustHrefPath(path, page) {
+          path = path.replace(/^\.\//, "").replace(/^\//, "");
+          const baseURL = getBaseURLForPage(page);
+
+          let finalPath;
+          if (baseURL === "../") {
+            finalPath = "../" + path;
+          } else {
+            if (!baseURL.endsWith("/")) {
+              finalPath = baseURL + "/" + path;
+            } else {
+              finalPath = baseURL + path;
+            }
+          }
+          return finalPath;
+        }
+
+        async function getEmbedPath(adjustedHref, originalHref, page) {
+          let cleanHref = adjustedHref
+            .replace(/index\.html$/, "")
+            .replace(/base\.html$/, "")
+            .replace(/\.html$/, "");
+          if (!cleanHref.endsWith("/")) cleanHref += "/";
+
+          const pathsToTry = [
+            cleanHref + "game/index.html",
+            cleanHref + "game/base.html",
+            cleanHref + "gamereal/index.html",
+            cleanHref + "gamereal/base.html",
+            cleanHref + "index.html",
+            cleanHref + "base.html",
+          ];
+
+          try {
+            const response = await fetch(adjustedHref, { method: "GET" });
+            if (response.ok) {
+              const text = await response.text();
+              const match = text.match(
+                /embedGame\((['"])(.*?)\1,\s*(['"])(.*?)\3\)/
+              );
+              if (match) {
+                const [, , embedPath, , title] = match;
+                const resolvedPath = new URL(embedPath, adjustedHref).href;
+                if (await fileExists(resolvedPath)) {
+                  return resolvedPath;
+                }
+              }
+            }
+          } catch (error) {
+            console.warn(
+              "Failed to parse embed path from cards-data.js",
+              error
+            );
+          }
+
+          for (const path of pathsToTry) {
+            if (await fileExists(path)) {
+              return path;
+            }
+          }
+
+          return adjustHrefPath(originalHref, page);
+        }
+
+        async function fileExists(url) {
+          try {
+            const response = await fetch(url, { method: "HEAD" });
+            return response.ok;
+          } catch {
+            return false;
+          }
+        }
+
+        function embedGame(gamePath, title) {
+          const iframe = document.createElement("iframe");
+          iframe.src = gamePath;
+          iframe.onload = function () {
+            iframe.contentWindow.focus();
+          };
+          gameContainer.innerHTML = "";
+          gameContainer.appendChild(iframe);
+          gameTitleElement.textContent = title;
+          document.title = title + " - ShakesGames";
+
+        }
+
+        let selectedGame = null;
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameId = urlParams.get("id");
+        const gameContainer = document.getElementById("gameContainer");
+        const gameTitleElement = document.getElementById("gameTitle");
+        const fullscreenButton = document.getElementById("fullscreenButton");
+        const redirectMessage = document.getElementById("redirectMessage");
+        const manualRedirectLink =
+          document.getElementById("manualRedirectLink");
+
+        if (gameId) {
+          const idNum = parseInt(gameId, 10);
+          selectedGame = games.find((g) => g.id === idNum);
+        }
+
+        gameTitleElement.textContent = "Loading...";
+        document.title = "Loading... - ShakesGames";
+
+        if (!selectedGame) {
+          embedGame("../404.html", "Not Found");
+        } else {
+          const normalGameIds = [
+            250, 244, 130, 729, 742, 743, 744, 745, 757, 759, 760, 761,
+            762,
+          ];
+          if (normalGameIds.includes(selectedGame.id)) {
+            document.title = "Redirecting... - ShakesGames";
+            redirectMessage.style.display = "block";
+
+            const page = selectedGame.page;
+            const baseURL = getBaseURLForPage(page);
+
+            let adjustedHref = selectedGame.href.replace(/^\.\//, "");
+            let finalRedirectURL;
+            if (!baseURL.endsWith("/")) {
+              finalRedirectURL = baseURL + "/" + adjustedHref;
+            } else {
+              finalRedirectURL = baseURL + adjustedHref;
+            }
+
+            manualRedirectLink.href = finalRedirectURL;
+            window.location.href = finalRedirectURL;
+            return;
+          }
+
+          const page = selectedGame.page;
+          const baseURL = getBaseURLForPage(page);
+
+          let adjustedHref = selectedGame.href.replace(/^\.\//, "");
+          if (!baseURL.endsWith("/")) {
+            adjustedHref = baseURL + "/" + adjustedHref;
+          } else {
+            adjustedHref = baseURL + adjustedHref;
+          }
+
+          const embedPath = await getEmbedPath(
+            adjustedHref,
+            selectedGame.href,
+            page
+          );
+          embedGame(embedPath, selectedGame.name);
+
+          fullscreenButton.addEventListener("click", function () {
+            if (gameContainer.requestFullscreen) {
+              gameContainer.requestFullscreen();
+            } else if (gameContainer.webkitRequestFullscreen) {
+              gameContainer.webkitRequestFullscreen();
+            } else if (gameContainer.msRequestFullscreen) {
+              gameContainer.msRequestFullscreen();
+            }
+          });
+
+          document.addEventListener("keydown", (e) => {
+            if (e.key === "f") fullscreenButton.click();
+          });
+
+          const cardContainer = document.getElementById("cardContainer");
+
+          function adjustImgPath(path, page) {
+            path = path
+              .replace(/^\.\//, "")
+              .replace(/^\//, "")
+              .replace(/^img\//, "");
+            const baseURL = getBaseURLForPage(page);
+
+            let finalImgPath;
+            if (baseURL === "../") {
+              finalImgPath = "../img/" + path;
+            } else {
+              if (!baseURL.endsWith("/")) {
+                finalImgPath = baseURL + "/img/" + path;
+              } else {
+                finalImgPath = baseURL + "img/" + path;
+              }
+            }
+            return finalImgPath;
+          }
+
+          const randomGames = games
+            .slice()
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 10);
+
+          randomGames.forEach((game) => {
+            const { imgSrc, name, id } = game;
+            const adjustedImgSrc = adjustImgPath(imgSrc, game.page);
+
+            const card = document.createElement("a");
+            card.className = "card";
+            card.href = `../play/?id=${id}`;
+
+            const img = document.createElement("img");
+            img.src = adjustedImgSrc;
+            img.alt = name;
+            card.appendChild(img);
+
+            const figcaption = document.createElement("figcaption");
+            figcaption.textContent = name;
+            card.appendChild(figcaption);
+
+            cardContainer.appendChild(card);
+          });
+        }
+
+        manualRedirectLink.addEventListener("click", function (e) {
+          e.preventDefault();
+          const selectedId = urlParams.get("id");
+          const sGame = games.find((g) => g.id == selectedId);
+          if (sGame && sGame.href) {
+            window.location.href = "../" + sGame.href;
+          }
+        });
+
+        document.getElementById("randomGameBtn")?.addEventListener("click", () => {
+          if (games.length > 0) {
+            const idx = Math.floor(Math.random() * games.length);
+            window.location.href = `../play/?id=${games[idx].id}`;
+          }
+        });
+
+        const searchInput = document.getElementById("searchInput");
+        const searchResults = document.getElementById("searchResults");
+        if (searchInput && searchResults) {
+          function updateSearchResults() {
+            const text = searchInput.value.toLowerCase();
+            const filtered = games
+              .filter((g) => g.name.toLowerCase().includes(text))
+              .slice(0, 7);
+            searchResults.innerHTML = "";
+            if (!filtered.length) {
+              searchResults.style.display = "none";
+              return;
+            }
+            filtered.forEach((game) => {
+              const linkEl = document.createElement("a");
+              linkEl.href = `../play/?id=${game.id}`;
+              const img = document.createElement("img");
+              img.src = adjustImgPath(game.imgSrc, game.page);
+              img.alt = game.name;
+              const span = document.createElement("span");
+              span.textContent = game.name;
+              linkEl.appendChild(img);
+              linkEl.appendChild(span);
+              searchResults.appendChild(linkEl);
+            });
+            searchResults.style.display = "block";
+          }
+          searchInput.addEventListener("focus", updateSearchResults);
+          searchInput.addEventListener("input", updateSearchResults);
+          document.addEventListener("click", (ev) => {
+            if (
+              !searchInput.contains(ev.target) &&
+              !searchResults.contains(ev.target)
+            ) {
+              searchResults.style.display = "none";
+            }
+          });
+        }
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("secretLink")
+          .addEventListener("click", function () {
+            window.location.href = "../secret-menu.html";
+          });
+      });
+
+      document.addEventListener("keydown", function (event) {
+        if (
+          ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(
+            event.key
+          )
+        ) {
+          event.preventDefault();
+        }
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const specialGameIds = [739, 749];
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameIdParam = urlParams.get("id");
+        const gameIdNum = Number(gameIdParam);
+
+        if (gameIdParam && specialGameIds.includes(gameIdNum)) {
+          const jsPath = `./${gameIdNum}.js`;
+
+          try {
+            const response = await fetch(jsPath);
+            if (!response.ok) {
+              console.error(
+                `Could not load extra JS for gameId=${gameIdParam} from: ${jsPath}`
+              );
+              return;
+            }
+
+            const scriptContent = await response.text();
+            const scriptElement = document.createElement("script");
+            scriptElement.type = "text/javascript";
+            scriptElement.text = scriptContent;
+            document.body.appendChild(scriptElement);
+          } catch (error) {
+            console.error(
+              `Error while loading extra JS for gameId=${gameIdParam}:`,
+              error
+            );
+          }
+        }
+      });
+    </script>
+
+    <div class="modal-overlay" id="settingsOverlay" style="display: none">
+      <div class="settings-modal">
+        <div class="settings-header">
+          <h2>Settings</h2>
+          <button id="settingsClose" class="settings-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="settings-body">
+          <label style="color: #1e4d2b; display: block; margin-bottom: 6px">Tab Cloak Presets</label>
+          <div id="cloakPresets" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px">
+            <button data-cloak="Google|https://www.google.com/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Google</button>
+            <button data-cloak="Google Classroom|https://ssl.gstatic.com/classroom/favicon.png" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Classroom</button>
+            <button data-cloak="Canvas|https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Canvas</button>
+            <button data-cloak="Google Docs|https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Docs</button>
+            <button data-cloak="Desmos|https://www.desmos.com/assets/img/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Desmos</button>
+            <button data-cloak="Khan Academy|https://www.khanacademy.org/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Khan</button>
+            <button data-cloak="IXL|https://www.ixl.com/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">IXL</button>
+            <button data-cloak="ShakesGames|../img/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">ShakesGames</button>
+          </div>
+          <label for="customTitleInput" style="color: #1e4d2b; display: block; margin-bottom: 5px">Custom Tab Title</label>
+          <input type="text" id="customTitleInput" style="width: 100%; padding: 6px; box-sizing: border-box; background: #fbf5e2; border: 1px solid rgba(30,77,43,0.4); color: #1e4d2b" value="ShakesGames" />
+          <button id="resetTitleBtn" style="padding: 6px 12px; margin: 8px 0 14px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Reset Title</button>
+          <label for="customFaviconInput" style="color: #1e4d2b; display: block; margin-bottom: 5px">Custom Tab Icon URL</label>
+          <input type="text" id="customFaviconInput" style="width: 100%; padding: 6px; box-sizing: border-box; background: #fbf5e2; border: 1px solid rgba(30,77,43,0.4); color: #1e4d2b" value="../img/favicon.ico" />
+          <button id="resetFaviconBtn" style="padding: 6px 12px; margin: 8px 0 14px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Reset Icon</button>
+          <hr style="border-color: rgba(30,77,43,0.3); margin: 14px 0" />
+                    <label class="panic-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; background: #f8d7da; border: 1px solid #f1b0b7; padding: 10px 12px; cursor: pointer">
+            <span style="color: #842029">Panic button (PANIC + Ctrl+Shift+X)</span>
+            <span class="switch">
+              <input type="checkbox" id="panicToggle" checked />
+              <span class="slider"></span>
+            </span>
+          </label>
+          <hr style="border-color: rgba(30,77,43,0.3); margin: 14px 0" />
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <button id="randomGameBtn" style="padding: 8px 12px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Random game</button>
+            <button id="aboutBlankBtn" style="padding: 8px 12px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Open in about:blank</button>
+            <a href="../about.html" style="padding: 8px 12px; color: #1e4d2b; text-decoration: none">About</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      id="panicBtn"
+      title="Panic! (Ctrl+Shift+X)"
+      style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #dc3545; color: #fff; border: none; border-radius: 50%; width: 100px; height: 100px; font-size: 15px; font-weight: bold; letter-spacing: 1px; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); align-items: center; justify-content: center; line-height: 1.2; padding: 0"
+      >PANIC</div
+    >
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var panicBtn = document.getElementById("panicBtn");
+        if (localStorage.getItem("sg_panic") !== "off")
+          panicBtn.style.display = "flex";
+        function panic() {
+          window.location.href = "https://www.google.com";
+        }
+        panicBtn.addEventListener("click", panic);
+        document.addEventListener("keydown", function (e) {
+          if (e.ctrlKey && e.shiftKey && (e.key === "X" || e.key === "x")) {
+            e.preventDefault();
+            panic();
+          }
+        });
+        var settingsOverlay = document.getElementById("settingsOverlay");
+        var settingsBtn = document.getElementById("settingsBtn");
+        var settingsClose = document.getElementById("settingsClose");
+        settingsBtn &&
+          settingsBtn.addEventListener("click", function () {
+            settingsOverlay.style.display = "flex";
+          });
+        settingsClose &&
+          settingsClose.addEventListener("click", function () {
+            settingsOverlay.style.display = "none";
+          });
+        settingsOverlay &&
+          settingsOverlay.addEventListener("click", function (ev) {
+            if (ev.target === settingsOverlay)
+              settingsOverlay.style.display = "none";
+          });
+        document.querySelectorAll("#cloakPresets button").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            var parts = btn.dataset.cloak.split("|");
+            localStorage.setItem("customTitle", parts[0]);
+            localStorage.setItem("customFavicon", parts[1]);
+            document.title = parts[0];
+            var el = document.querySelector('link[rel="icon"]');
+            if (el) el.href = parts[1];
+          });
+        });
+        var panicToggle = document.getElementById("panicToggle");
+        if (panicToggle) {
+          panicToggle.checked = localStorage.getItem("sg_panic") !== "off";
+          panicToggle.addEventListener("change", function () {
+            localStorage.setItem("sg_panic", panicToggle.checked ? "on" : "off");
+            panicBtn.style.display = panicToggle.checked ? "flex" : "none";
+          });
+        }
+        var aboutBlankBtn = document.getElementById("aboutBlankBtn");
+        aboutBlankBtn &&
+          aboutBlankBtn.addEventListener("click", function () {
+            var url = window.location.href,
+              newTab = window.open();
+            if (!newTab) return;
+            newTab.document.write(
+              '<html><body style="margin:0;height:100vh;"><iframe src="' +
+                url +
+                '" style="border:none;width:100%;height:100%"></iframe></body></html>'
+            );
+            newTab.document.close();
+          });
+      });
+    </script>
+    <script>
+      window.addEventListener("pageshow", (e) => {
+        if (e.persisted) window.location.reload();
+      });
+    </script>
+  </body>
+</html>

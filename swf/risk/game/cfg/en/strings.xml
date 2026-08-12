@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<strings>
+    <item id="reinforce">General, you have ${units} units left. Reinforce a territory.</item>
+    
+    <item id="reinforce_earned">General, you have ${units} units. Reinforce territories.
+You earned ${earned_ter} from territories.</item>
+
+    <item id="reinforce_earned_cont">General, you have ${units} units. Reinforce territories.
+You earned ${earned_ter} from territories + ${earned_cont} from continents.</item>
+
+    <item id="reinforce_last">General, select your last territory to reinforce.
+You only have 1 unit left.</item>
+
+    <item id="reinforce_spec">General, select a territory to reinforce with additional units.
+You have ${units} units left.</item>    
+
+    <item id="attack_from">General, select a territory to attack from or press the
+Attacks Completed button.</item>
+
+    <item id="attack_to">General, select a territory to attack from ${source}.</item>
+    
+    <item id="attacking">${name} is attacking ${dest} from ${source}.</item>
+    
+    <item id="move_troops">General, choose how many units to move into the
+conquered territory.</item>
+
+    <item id="fortify_from">General, select a territory to move spare troops from or
+press the Fortification Completed button to end your turn.</item>
+
+    <item id="fortify_to">General, select a connected territory to move troops into.</item>
+
+    <item id="lost">You have lost!</item>
+    
+    <item id="won">You have won!</item>
+    
+    <item id="Retreat">Retreat</item>
+    
+    <item id="Attack">Attack</item>
+    
+    <item id="quit_confirmation">Are you sure you want to Quit?</item>
+    
+    <item id="territory1">Alaska</item>
+    <item id="territory2">Northwest Territory</item>
+    <item id="territory3">Greenland</item>
+    <item id="territory4">Alberta</item>
+    <item id="territory5">Ontario</item>
+    <item id="territory6">Quebec</item>
+    <item id="territory7">Western United States</item>
+    <item id="territory8">Eastern United States</item>
+    <item id="territory9">Central America</item>
+    <item id="territory10">Venezuela</item>
+    <item id="territory11">Peru</item>
+    <item id="territory12">Brazil</item>
+    <item id="territory13">Argentina</item>
+    <item id="territory14">Iceland</item>
+    <item id="territory15">Scandinavia</item>
+    <item id="territory16">Ukraine</item>
+    <item id="territory17">Great Britain</item>
+    <item id="territory18">Northern Europe</item>
+    <item id="territory19">Western Europe</item>
+    <item id="territory20">Southern Europe</item>
+    <item id="territory21">North Africa</item>
+    <item id="territory22">Egypt</item>
+    <item id="territory23">Congo</item>
+    <item id="territory24">East Africa</item>
+    <item id="territory25">South Africa</item>
+    <item id="territory26">Madagascar</item>
+    <item id="territory27">Ural</item>
+    <item id="territory28">Siberia</item>
+    <item id="territory29">Yakutsk</item>
+    <item id="territory30">Kamchatka</item>
+    <item id="territory31">Irkutsk</item>
+    <item id="territory32">Mongolia</item>
+    <item id="territory33">Japan</item>
+    <item id="territory34">Afghanistan</item>
+    <item id="territory35">China</item>
+    <item id="territory36">Middle East</item>
+    <item id="territory37">India</item>
+    <item id="territory38">Siam</item>
+    <item id="territory39">Indonesia</item>
+    <item id="territory40">New Guinea</item>
+    <item id="territory41">Western Australia</item>
+    <item id="territory42">Eastern Australia</item>
+
+    <item id="ok">OK</item>
+    <item id="you_won_in">You Won in</item>
+    <item id="you_defeated">You Defeated</item>
+    <item id="you_lost">You Lost</item>
+    <item id="units">units</item>
+    <item id="turns">turns</item>
+    <item id="you_lost_in">You Lost in</item>
+    <item id="player_defeated">You have been defeated</item>
+    <item id="no_winner">No winner was declared after five rounds</item>
+
+
+    <item id="general_defeated">${name} has been defeated.</item>
+    <item id="player_capture_cards">${cards} Territory cards were held and will be added to your collection.</item>
+    <item id="player_capture_1_card">1 Territory card was held and will be added to your collection.</item>
+    <item id="ai_capture_cards">${cards} Territory cards were held and will be added to ${name}'s collection.</item>
+    <item id="ai_capture_1_card">1 Territory card was held and will be added to ${name}'s collection.</item>
+
+    <item id="rules_title_1">OVERVIEW</item>
+    <item id="rules_text_1">The object of Risk is to control all 42 territories of the world. Territories are claimed at the beginning of the game.  On your turn, you can reinforce your territories, attack neighboring territories and fortify a single territory for strategic purposes. Territory cards earn you more reinforcements as you continue your quest to conquer the world!</item>
+
+    <item id="rules_title_2">REINFORCING TERRITORIES</item>
+    <item id="rules_text_2">At the start of each turn, you are awarded the following units to reinforce your armies: one unit for every three claimed territories [minimum 3 units awarded], bonus units indicated on the map for each continent you control, and incremental units from turning in a set of cards.</item>
+
+    <item id="rules_title_3">ATTACKING/DEFENDING</item>
+    <item id="rules_text_3">Choose a territory with 2 or more units to attack a neighboring territory.  You may attack with up to 3 units, but defend with a maximum of 2 units. Roll the dice and compare your highest dice with your opponent`s to see who won.  Ties are awarded to the Defender.  You may end an attack at any time by pressing RETREAT or reduce the number of units by clicking on the dice to exclude before rolling.</item>
+
+    <item id="rules_title_4">ATTACKING/DEFENDING</item>
+    <item id="rules_text_4">You may end an attack at any time by pressing RETREAT or reduce the number of units by clicking on the dice to exclude before rolling.</item>
+
+    <item id="rules_title_5">MOVING IN</item>
+    <item id="rules_text_5">You win the invasion when you defeat the last defendng unit from a territory. The units used to win the battle automatically move to territory you invaded. You may also move any additional units from your invading territory in to join them, as long as you leave at least one unit behind. You must do it before you declared another invasion.</item>
+
+    <item id="rules_title_6">COLLECT TERRITORY CARD</item>
+    <item id="rules_text_6">If you conquered at least one enemy territory on your turn, then you earn one Territory card.  Only one Territory card may be earned per turn.</item>
+
+    <item id="rules_title_7">TURN IN CARDS</item>
+    <item id="rules_text_7">Each territory card is defined as infantry, cavalry, or artillery.  At the beginning of your turn, you may turn in a set of 3 cards for additional units.  The 3 cards must all be the same military type or represent one of each. Wild cards can represent any military type. The number of units earned is indicated on the map and  increases after any player turns in a set of cards.  You must turn in a set when you have 5 or more cards.</item>
+
+    <item id="rules_title_8">FORTIFY</item>
+    <item id="rules_text_8">After you have finished attacking, you get one 'free move' to redeploy units from one territory to another. To fortify your position, take as many units as you'd like from one of your territories and move them to a connected territory.  Territories are connected if all the territories in between are also controlled by you.</item>
+
+    <item id="rules_title_9">ELIMINATING ANOTHER PLAYER</item>
+    <item id="rules_text_9">Eliminate other players by defeating their last remaining territory.  As a reward, you get all of the Territory cards from the eliminated player.  If you then have 5 Territory cards or more, you must immediately trade in a set for bonus reinforcements and place them on your territories. </item>
+
+    <item id="rules_title_10"/>
+    <item id="rules_text_10"/>
+
+    <item id="rules_title_11"/>
+    <item id="rules_text_11"/>
+
+    <item id="rules_title_12"/>
+    <item id="rules_text_12"/>
+
+
+    <item id="options_button">Options</item>
+    <item id="rules_button">Rules</item>
+    <item id="quit_button">Quit</item>
+    <item id="close_button">Close</item>
+    <item id="play_button"><![CDATA[<FONT SIZE="68">P</FONT><FONT SIZE="47">lay</FONT>]]></item>
+    <item id="download_button">Download Full Game</item>
+	<item id="play_again">Play Again</item>
+
+    <item id="yes">Yes</item>
+    <item id="no">No</item>
+    <item id="ok">OK</item>
+    <item id="cancel">cancel</item>
+
+    <item id="end_attack_title">End Attack?</item>
+
+    <item id="card_panel_next_reinforcement">The next person to turn in a set of cards will recieve ${units} reinforcements.</item>
+
+    <item id="card_panel_hint">A card set comprises of either 3 infantry, 3 cavalry, 3 artillery, or one of each</item>
+
+    <item id="battle_title">${attacker} attacking ${defender}</item>
+
+</strings>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <localization>
+        <language>en</language>
+        <dir>cfg</dir>
+        <lib type="sound">soundlib.swf</lib>
+        <lib type="art">dialoglib.swf</lib>
+        <strings>strings.xml</strings>
+    </localization>
+    <core>
+        <cursor>0</cursor>
+        <cheats>0</cheats>
+        <!--
+            - partner: partner data
+            - isZone: 0 or 1  (0=no, 1=yes) for MSN
+            - upsellDialog : 0 or 1  (0=no, 1=yes)
+            - upsellFreq: "level" or "layout"
+            - upsellGameOver: 0 or 1  (0=no, 1=yes)
+            - downloadURI: 0 or 1  (0=no, 1=yes)
+         -->
+        <marketing> 
+            <partner>iWin</partner>
+            <iszone>0</iszone>
+            <upselldialog>0</upselldialog>
+            <upsellfreq>layout</upsellfreq>
+            <upsellgameover>0</upsellgameover>
+            <downloaduri><![CDATA[http://www.game-remakes.com/game.php?id=476]]></downloaduri>
+        </marketing>
+    </core>
+    <game name="Risk"/>        
+</config>

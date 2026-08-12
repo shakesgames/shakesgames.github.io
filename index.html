@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+	<style>
+		:root {
+		  --red: rgb(220, 53, 69);
+		  --green: rgb(40, 167, 69);
+		  --ff: 'Times New Roman', Times, serif;
+		  --bg: #fdf6e3;
+		}
+		body {
+		  font-family: var(--ff);
+		  margin: 0;
+		  padding: 0;
+		  background-color: var(--bg);
+		  color: #1e4d2b;
+		  overflow-x: hidden;
+		  cursor: default;
+		}
+		.navbar {
+		  background-color: rgba(253, 246, 227, 0.95);
+		  backdrop-filter: blur(10px);
+		  color: #1e4d2b;
+		  padding: 15px 30px;
+		  display: flex;
+		  align-items: center;
+		  justify-content: space-between;
+		  box-shadow: 0 4px 15px rgba(30, 77, 43, 0.15);
+		  position: sticky;
+		  top: 0;
+		  z-index: 1000;
+		  position: relative;
+		}
+
+		.modal-overlay {
+		  position: fixed;
+		  inset: 0;
+		  background: rgba(0, 0, 0, 0.75);
+		  z-index: 2000;
+		  display: none;
+		  align-items: center;
+		  justify-content: center;
+		  padding: 16px;
+		}
+		.settings-modal {
+		  background: #fdf6e3;
+		  border: 1px solid rgba(30, 77, 43, 0.3);
+		  border-radius: 14px;
+		  max-width: 480px;
+		  width: 100%;
+		  max-height: 90vh;
+		  overflow-y: auto;
+		  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+		}
+		.settings-header {
+		  display: flex;
+		  align-items: center;
+		  justify-content: space-between;
+		  padding: 14px 20px;
+		  border-bottom: 1px solid rgba(30, 77, 43, 0.3);
+		}
+		.settings-header h2 {
+		  margin: 0;
+		  color: #1e4d2b;
+		  font-size: 1.2rem;
+		}
+		.settings-close {
+		  background: none;
+		  border: none;
+		  color: #1e4d2b;
+		  font-size: 1.6rem;
+		  cursor: pointer;
+		  line-height: 1;
+		}
+		.settings-body {
+		  padding: 20px;
+		}
+		.settings-body button {
+		  background: #1e4d2b;
+		  border: none;
+		  border-radius: 0;
+		  color: #fdf6e3;
+		  cursor: pointer;
+		  font-size: 0.9rem;
+		  font-family: var(--ff);
+		}
+		.settings-body button:hover {
+		  background: #173d20;
+		}
+		.settings-body input[type="text"] {
+		  background: #fbf5e2;
+		  border: 1px solid rgba(30, 77, 43, 0.4);
+		  border-radius: 0;
+		  color: #1e4d2b;
+		  padding: 6px;
+		  font-family: var(--ff);
+		}
+		.search-container {
+		  flex: 1;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  position: relative;
+		}
+		.apps-button {
+		  background: none;
+		  border: none;
+		  cursor: pointer;
+		  margin-right: 12px;
+		  width: 40px;
+		  height: 40px;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		}
+		.apps-button svg {
+		  width: 100%;
+		  height: 100%;
+		}
+		.apps-button svg circle {
+		  fill: white;
+		  transition: fill 0.3s ease;
+		}
+		.apps-button:hover svg circle {
+		  fill: orange;
+		}
+		.site-title {
+		  font-family: "Times New Roman", Times, serif;
+		  color: #1e4d2b;
+		  font-weight: bold;
+		  font-size: 2.1rem;
+		  margin: 0;
+		  white-space: nowrap;
+		}
+		.hero-gif {
+		  width: 96px;
+		  height: auto;
+		  display: block;
+		  cursor: pointer;
+		}
+		.pear {
+		  position: fixed;
+		  z-index: 5000;
+		  pointer-events: none;
+		  line-height: 1;
+		  will-change: transform, opacity;
+		}
+		.flash {
+		  position: fixed;
+		  z-index: 4999;
+		  pointer-events: none;
+		  border-radius: 50%;
+		  background: radial-gradient(
+		    circle,
+		    rgba(255, 215, 0, 0.9),
+		    rgba(255, 215, 0, 0.25) 40%,
+		    transparent 70%
+		  );
+		  transform: translate(-50%, -50%);
+		  animation: flashGrow 0.5s ease-out forwards;
+		}
+		@keyframes flashGrow {
+		  0% {
+		    width: 0;
+		    height: 0;
+		    opacity: 1;
+		  }
+		  100% {
+		    width: 600px;
+		    height: 600px;
+		    opacity: 0;
+		  }
+		}
+		.shake {
+		  animation: screenShake 0.45s linear;
+		}
+		@keyframes screenShake {
+		  0%, 100% { transform: translate(0, 0); }
+		  10% { transform: translate(-8px, 5px); }
+		  20% { transform: translate(7px, -6px); }
+		  30% { transform: translate(-6px, -4px); }
+		  40% { transform: translate(8px, 4px); }
+		  50% { transform: translate(-5px, 6px); }
+		  60% { transform: translate(6px, -5px); }
+		  70% { transform: translate(-7px, 3px); }
+		  80% { transform: translate(5px, -3px); }
+		  90% { transform: translate(-4px, 2px); }
+		}
+		.nav-actions {
+		  display: flex;
+		  align-items: center;
+		  gap: 10px;
+		}
+		.nav-btn {
+		  background: #f3ead1;
+		  border: 1px solid rgba(30, 77, 43, 0.35);
+		  color: #1e4d2b;
+		  padding: 8px 16px;
+		  border-radius: 8px;
+		  font-size: 0.95rem;
+		  cursor: pointer;
+		  text-decoration: none;
+		  transition: background 0.2s ease;
+		  font-family: var(--ff);
+		}
+		.nav-btn:hover {
+		  background: #e9dbb4;
+		}
+		.menu-icon {
+		  font-size: 2.5rem;
+		  cursor: pointer;
+		  color: #1e4d2b;
+		  transition: transform 0.3s ease, color 0.3s ease;
+		}
+		.menu-icon:hover {
+		  transform: scale(1.2);
+		  color: #1e4d2b;
+		}
+		.slide-menu {
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  height: 100vh;
+		  width: 400px;
+		  backdrop-filter: blur(10px);
+		  color: #1e4d2b;
+		  box-shadow: 5px 0 20px rgba(0, 0, 0, 0.7);
+		  z-index: 1003;
+		  transition: transform 0.5s ease;
+		  transform: translateX(-100%);
+		  padding: 20px;
+		  overflow-y: auto;
+		  box-sizing: border-box;
+		  scrollbar-width: none;
+		  -ms-overflow-style: none;
+		  background: linear-gradient(
+		    to bottom right,
+		    rgba(43, 43, 43, 0.599),
+		    rgba(53, 53, 53, 0.599),
+		    rgba(80, 80, 80, 0.599)
+		  );
+		}
+		.slide-menu::-webkit-scrollbar {
+		  display: none;
+		}
+		.slide-menu[style*="translateX(0%)"] {
+		  transform: translateX(0);
+		}
+		.profile-picture-container {
+		  border-radius: 50%;
+		  width: 120px;
+		  aspect-ratio: 1;
+		  overflow: hidden;
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+		  transition: all 0.4s ease;
+		  cursor: pointer;
+		  border: 3px solid orange;
+		}
+		.profile-picture-container:hover {
+		  transform: scale(1.1) rotate(5deg);
+		  box-shadow: 0 0 35px rgba(255, 165, 0, 0.5);
+		}
+		.profile-picture {
+		  width: 100%;
+		  height: 100%;
+		  object-fit: cover;
+		}
+		.user-details-container {
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		  padding: 30px 0;
+		  gap: 15px;
+		}
+		.profile-top-container {
+		  display: flex;
+		  align-items: center;
+		  gap: 20px;
+		}
+		.username-container {
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		}
+		.username-text {
+		  font-size: 1.8rem;
+		  color: #1e4d2b;
+		  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+		}
+		.categories {
+		  display: flex;
+		  flex-direction: column;
+		  gap: 15px;
+		}
+		.categories > a {
+		  padding: 17px;
+		  background: linear-gradient(45deg, #f3ead1, #e9dbb4);
+		  border-radius: 15px;
+		  text-decoration: none;
+		  color: #1e4d2b;
+		  transition: transform 0.4s ease;
+		  text-align: center;
+		  font-size: 1.2rem;
+		  position: relative;
+		  overflow: hidden;
+		  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+		}
+		.categories > a:hover {
+		  background: linear-gradient(45deg, #1e4d2b, #2e6b3f);
+		  box-shadow: 0 6px 20px rgba(30, 77, 43, 0.35);
+		}
+		.categories > a::after {
+		  content: "";
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  transform: translate(-50%, -50%);
+		  border-radius: 50%;
+		  width: 0;
+		  height: 0;
+		  background: rgba(0, 0, 0, 0.1);
+		  transition: all 0.5s ease;
+		}
+		.categories > a:hover::after {
+		  width: 500px;
+		  height: 500px;
+		}
+		span.new-feature-tag {
+		  background: orange;
+		  border-radius: 50px;
+		  padding: 0.3rem 0.6rem;
+		  margin-left: 1rem;
+		  font-size: 0.7rem;
+		  color: black;
+		  text-transform: uppercase;
+		  box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+		}
+		.search-bar {
+		  padding: 0.8rem 1.2rem;
+		  font-size: 1rem;
+		  border-radius: 0;
+		  width: 275px;
+		  border: 1px solid rgba(30, 77, 43, 0.35);
+		  background-color: #fbf5e2;
+		  color: #1e4d2b;
+		  transition: all 0.3s ease;
+		  box-shadow: inset 0 0 10px rgba(30, 77, 43, 0.08);
+		}
+		.search-bar::placeholder {
+		  color: rgba(30, 77, 43, 0.55);
+		}
+		.search-bar:focus {
+		  outline: none;
+		  background-color: #f8efd0;
+		}
+		.games-grid {
+		  display: flex;
+		  flex-wrap: wrap;
+		  padding: 20px;
+		  justify-content: center;
+		  gap: 10px;
+		}
+		.ghost-card {
+		  background: #f3ead1;
+		  animation: pulse 1.5s infinite ease-in-out;
+		}
+		@keyframes pulse {
+		  0%,
+		  100% { background: #f3ead1; }
+		  50% { background: #e6d5a8; }
+		}
+		.card,
+		.ghost-card {
+		  border-radius: 0;
+		  width: 120px;
+		  aspect-ratio: 1;
+		  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+		  transition: all 0.4s ease;
+		}
+		.card {
+		  background: transparent;
+		  position: relative;
+		  overflow: hidden;
+		  cursor: pointer;
+		}
+		.card:hover {
+		  transform: scale(1.1) translateY(-10px);
+		  box-shadow: 0 10px 30px rgba(30, 77, 43, 0.35);
+		}
+		.card img {
+		  width: 100%;
+		  height: 100%;
+		  object-fit: cover;
+		  transition: transform 0.4s ease;
+		}
+		.card:hover img {
+		  transform: scale(1.05);
+		}
+		.card figcaption {
+		  position: absolute;
+		  bottom: 0;
+		  left: 0;
+		  width: 100%;
+		  background: #ffffff;
+		  color: #1e4d2b;
+		  padding: 10px 0;
+		  transition: all 0.4s ease;
+		  transform: translateY(100%);
+		  opacity: 0;
+		  text-align: center;
+		  font-weight: 700;
+		  text-shadow: none;
+		}
+		.card:hover figcaption {
+		  transform: translateY(1px);
+		  opacity: 1;
+		}
+		.search-results {
+		  position: fixed;
+		  right: auto;
+		  left: 50%;
+		  transform: translateX(-50%);
+		  top: 71px;
+		  background-color: rgba(253, 246, 227, 0.98);
+		  backdrop-filter: blur(5px);
+		  border-radius: 0;
+		  border: 1px solid rgba(30, 77, 43, 0.25);
+		  width: 313px;
+		  display: none;
+		  overflow: hidden;
+		  z-index: 1000;
+		  box-shadow: 0 10px 40px rgba(30, 77, 43, 0.2);
+		}
+		.search-results a {
+		  display: flex;
+		  align-items: center;
+		  text-decoration: none;
+		  color: #1e4d2b;
+		  padding: 10px;
+		  transition: all 0.3s ease;
+		  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+		}
+		.search-results a:focus,
+		.search-results a:hover {
+		  outline: none;
+		  background: rgba(50, 50, 50, 0.7);
+		  padding-left: 15px;
+		}
+		.search-results img {
+		  width: 60px;
+		  height: 60px;
+		  object-fit: cover;
+		  margin-right: 15px;
+		  border-radius: 10px;
+		  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+		}
+		.search-results a:last-child {
+		  border-bottom: none;
+		}
+		.news-container {
+		  margin: 30px auto;
+		  padding: 30px;
+		  max-width: 900px;
+		  background-color: #444444;
+		  border-radius: 20px;
+		  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+		}
+		.news {
+		  color: #1e4d2b;
+		}
+		.credits-title {
+		  font-size: 2rem;
+		  margin-bottom: 20px;
+		  color: #1e4d2b;
+		  border-bottom: 3px solid #ddd;
+		  padding-bottom: 10px;
+		  text-shadow: none;
+		}
+		.credits-item {
+		  display: flex;
+		  justify-content: space-between;
+		  margin-bottom: 20px;
+		}
+		.credits-role {
+		  font-weight: 700;
+		  color: #1e4d2b;
+		  font-size: 1.2rem;
+		}
+		.credits-names {
+		  display: flex;
+		  flex-wrap: wrap;
+		  gap: 15px;
+		  align-items: center;
+		}
+		.credits-link {
+		  color: #4fa7ff;
+		  text-decoration: none;
+		  font-weight: 600;
+		  transition: all 0.3s ease;
+		}
+		.credits-link:hover {
+		  text-decoration: underline;
+		}
+		.credits-names span {
+		  color: #c4c4c4;
+		}
+		h2 {
+		  text-align: center;
+		  color: #1e4d2b;
+		  margin: 40px 0;
+		  font-size: 2.5rem;
+		  text-shadow: none;
+		}
+		.alternate-links-container {
+		  padding: 20px;
+		  display: grid;
+		  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		  gap: 15px;
+		  margin: 0 auto;
+		  max-width: 900px;
+		  background-color: #444444;
+		  border-radius: 20px;
+		  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+		}
+		.alternate-link:last-child:nth-child(odd) {
+		  grid-column: 1 / -1;
+		}
+		.status-dot,
+		.spinning-dot {
+		  aspect-ratio: 1;
+		  border-radius: 100vw;
+		  display: inline-block;
+		  margin-left: 10px;
+		  margin-right: 5px;
+		}
+		.status-dot {
+		  width: 15px;
+		  background-color: var(--red);
+		}
+		.spinning-dot {
+		  width: 12px;
+		  border: 3px solid transparent;
+		  border-top: 3px solid black;
+		  animation: spinning-dot-spin infinite 500ms linear;
+		}
+		@keyframes spinning-dot-spin {
+		  to { transform: rotate(1turn); }
+		}
+		.alternate-link {
+		  display: flex;
+		  align-items: center;
+		  justify-content: space-between;
+		  padding: 10px 15px;
+		  text-decoration: none;
+		  color: #1e4d2b;
+		  background-color: #4e4e4e;
+		  border-radius: 10px;
+		  transition: all 0.3s ease;
+		  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+		}
+		.alternate-link:hover {
+		  background-color: #444;
+		  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+		}
+		.alternate-link span:first-child {
+		  overflow: hidden;
+		  text-overflow: ellipsis;
+		  white-space: nowrap;
+		  flex-grow: 1;
+		  font-size: 1.1rem;
+		  font-weight: 600;
+		  margin-right: 10px;
+		}
+		.alternate-links-key {
+		  text-align: center;
+		  margin-top: 15px;
+		  font-size: 14px;
+		  color: #aaa;
+		}
+		.updates-paragraph-text {
+		  color: #1e4d2b;
+		  background: linear-gradient(156deg, #ffd700, #f7ef8a, #e5c558, #ffd700);
+		  padding: 12px 30px;
+		  text-align: center;
+		  font-size: 1.5rem;
+		  font-weight: 700;
+		  margin: 0;
+		  box-shadow: 0 4px 14px rgba(30, 77, 43, 0.2);
+		  border-radius: 15px;
+		  box-shadow: 0 10px 25px #d1ac4780;
+		  font-size: 1.1rem;
+		  text-align: center;
+		  max-width: 850px;
+		  margin-block: 20px;
+		}
+		.updates-text-container {
+		  margin: 22px 20% 10px;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  align-items: center;
+		  gap: 4px;
+		}
+		#topGameList {
+		  max-width: 1600px;
+		  margin: 0 auto;
+		}
+		.modal {
+		  display: none;
+		  position: fixed;
+		  z-index: 1000;
+		  left: 0;
+		  top: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-color: rgba(0, 0, 0, 0.5);
+		  justify-content: center;
+		  align-items: center;
+		}
+		.modal-content {
+		  background-color: #757575;
+		  padding: 30px;
+		  border-radius: 20px;
+		  width: 90%;
+		  max-width: 450px;
+		  text-align: center;
+		  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+		  color: #1e4d2b;
+		}
+		.modal-close {
+		  color: #aaa;
+		  float: right;
+		  font-size: 32px;
+		  font-weight: bold;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		}
+		.modal-close:hover,
+		.modal-close:focus {
+		  color: #000;
+		  transform: scale(1.2);
+		}
+		.modal-link {
+		  color: blue;
+		  text-decoration: underline;
+		  cursor: pointer;
+		  transition: all 0.3s ease;
+		}
+		.modal-link:hover {
+		  color: #ff8433;
+		}
+		.xp-container {
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		  margin: 20px auto;
+		  width: 90%;
+		}
+		.xp-level-text {
+		  color: #1e4d2b;
+		  font-size: 1.3rem;
+		  margin-bottom: 10px;
+		  text-shadow: none;
+		}
+		.xp-bar {
+		  position: relative;
+		  width: 100%;
+		  height: 25px;
+		  background: black;
+		  border-radius: 15px;
+		  overflow: hidden;
+		}
+		.xp-bar-fill {
+		  height: 100%;
+		  background: linear-gradient(to right, #47fced, #0af);
+		  width: 0%;
+		  transition: width 0.7s ease;
+		}
+		.xp-bar-text {
+		  position: absolute;
+		  width: 100%;
+		  text-align: center;
+		  color: #1e4d2b;
+		  font-size: 0.9rem;
+		  top: 50%;
+		  transform: translateY(-50%);
+		  pointer-events: none;
+		  text-shadow: none;
+		}
+		.section-header {
+		  display: flex;
+		  justify-content: center;
+		  align-items: center;
+		  gap: 10px;
+		}
+		.edit-button {
+		  width: 30px;
+		  cursor: pointer;
+		  fill: #999;
+		  transition: transform 0.3s ease;
+		}
+		.edit-button:hover {
+		  transform: scale(1.2);
+		}
+		.custom-slide-menu {
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  height: 100vh;
+		  width: 400px;
+		  background-color: #202020;
+		  color: #1e4d2b;
+		  box-shadow: 5px 0 20px rgba(0, 0, 0, 0.7);
+		  z-index: 1003;
+		  transition: transform 0.5s ease;
+		  transform: translateX(-100%);
+		  padding: 20px;
+		  overflow-y: auto;
+		  box-sizing: border-box;
+		}
+		.custom-slide-menu[style*="translateX(0%)"] {
+		  transform: translateX(0);
+		}
+		.custom-options {
+		  display: flex;
+		  flex-direction: column;
+		  gap: 20px;
+		  padding: 20px 0;
+		}
+		.toggle-option {
+		  display: flex;
+		  justify-content: space-between;
+		  align-items: center;
+		  padding: 10px;
+		  background: #333333;
+		  border-radius: 10px;
+		}
+		.toggle-option label {
+		  font-size: 1.2rem;
+		  color: #1e4d2b;
+		}
+		.toggle-option input[type="checkbox"] {
+		  appearance: none;
+		  width: 50px;
+		  height: 25px;
+		  background: #555555;
+		  border-radius: 25px;
+		  position: relative;
+		  cursor: pointer;
+		  outline: none;
+		  transition: background 0.3s ease;
+		}
+		.toggle-option input[type="checkbox"]:checked {
+		  background: #007bff;
+		}
+		.toggle-option input[type="checkbox"]::before {
+		  content: "";
+		  position: absolute;
+		  width: 21px;
+		  height: 21px;
+		  background: white;
+		  border-radius: 50%;
+		  top: 2px;
+		  left: 2px;
+		  transition: transform 0.3s ease;
+		}
+		.toggle-option input[type="checkbox"]:checked::before {
+		  transform: translateX(25px);
+		}
+		input[type="range"] {
+		  appearance: none;
+		  width: 100%;
+		  margin: 10px 0;
+		  background: transparent;
+		}
+		input[type="range"]::-webkit-slider-runnable-track {
+		  height: 8px;
+		  background: #ccc;
+		  border-radius: 5px;
+		}
+		input[type="range"]::-webkit-slider-thumb {
+		  appearance: none;
+		  height: 20px;
+		  width: 20px;
+		  background: #fff;
+		  border: 1px solid #777;
+		  border-radius: 50%;
+		  cursor: pointer;
+		  margin-top: -6px;
+		}
+		.overlay {
+		  display: none;
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  background-color: rgba(0, 0, 0, 0.5);
+		  z-index: 1000;
+		}
+		.popup-container {
+		  display: none;
+		  position: fixed;
+		  top: 0;
+		  left: 0;
+		  width: 100%;
+		  height: 100%;
+		  justify-content: center;
+		  align-items: center;
+		  z-index: 1001;
+		}
+		.popup-container.active {
+		  display: flex;
+		}
+		.popup {
+		  background-color: #333;
+		  color: #1e4d2b;
+		  padding: 20px;
+		  border-radius: 10px;
+		  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+		  max-width: 90%;
+		  width: 300px;
+		  text-align: center;
+		}
+		.popup button {
+		  margin-top: 20px;
+		  padding: 10px 20px;
+		  background-color: #ff8c00;
+		  border: none;
+		  color: #1e4d2b;
+		  font-size: 14px;
+		  border-radius: 5px;
+		  cursor: pointer;
+		}
+		.popup button:hover {
+		  background-color: #ff6a00;
+		}
+		#customSlideMenu .custom-options {
+		  padding: 20px !important;
+		}
+		#customSlideMenu .custom-option {
+		  margin-bottom: 20px !important;
+		}
+		#customSlideMenu label {
+		  color: #1e4d2b;
+		  display: block;
+		  margin-bottom: 10px;
+		  font-size: 1.1rem;
+		  font-weight: 600;
+		}
+		#customSlideMenu input[type="text"] {
+		  width: 100% !important;
+		  padding: 10px !important;
+		  border: 1px solid #444 !important;
+		  border-radius: 5px !important;
+		  font-size: 1rem !important;
+		  background-color: #333 !important;
+		  color: white !important;
+		  box-sizing: border-box !important;
+		}
+		#customSlideMenu input[type="text"]::placeholder {
+		  color: #bbb !important;
+		}
+		#customSlideMenu button {
+		  margin-top: 10px !important;
+		  padding: 10px 15px !important;
+		  border: none !important;
+		  border-radius: 5px !important;
+		  background-color: #ff8c00 !important;
+		  color: white !important;
+		  cursor: pointer !important;
+		  font-size: 1rem !important;
+		  transition: background-color 0.3s ease !important;
+		}
+		#customSlideMenu button:hover {
+		  background-color: #ff6a00 !important;
+		}
+		.apps-popup {
+		  display: none;
+		  position: absolute;
+		  top: calc(100% + 8px);
+		  left: -123px;
+		  background: #333;
+		  border-radius: 12px;
+		  padding: 12px;
+		  z-index: 1001;
+      	  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
+		}
+		.apps-popup.show {
+		  display: grid;
+		  /* change the number of times it repeats for number of items in the waffle menu (2 right now) */
+		  grid-template-columns: repeat(2, 1fr);
+		}
+		.apps-grid { display: contents; }
+		.app-item {
+		  width: 72px;
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		  justify-content: center;
+		  padding: 8px;
+		  border-radius: 12px;
+		  transition: background 0.2s, transform 0.2s;
+		  cursor: pointer;
+		}
+		.app-item:hover {
+		  background: #404040;
+		  transform: scale(1.06);
+		}
+		.app-icon img {
+		  width: 50px;
+		  height: 50px;
+		  border-radius: 10%;
+		}
+		svg.movie-svg {
+		  width: 60px;
+		  margin: -5px;
+		}
+		.app-title {
+		  margin-top: 6px;
+		  font-size: 0.75rem;
+		  color: #fff;
+		  text-align: center;
+		  white-space: nowrap;
+		}
+		@media (max-width: 768px) {
+		  .navbar {
+		    flex-wrap: wrap;
+		    padding: 10px 15px;
+		  }
+		  .menu-icon {
+		    font-size: 2rem;
+		    margin-bottom: 10px;
+		  }
+		  .logo {
+		    font-size: 1.8rem;
+		    left: 50%;
+		    transform: translateX(-50%);
+		  }
+		  .search-container {
+		    display: flex;
+		    align-items: center;
+		    position: relative;
+		  }
+		  .search-bar {
+		    width: 90%;
+		    font-size: 0.9rem;
+		  }
+		  .slide-menu,
+		  .custom-slide-menu {
+		    width: 250px;
+		  }
+		  .profile-picture-container {
+		    width: 80px;
+		    aspect-ratio: 1;
+		  }
+		  .username-text { font-size: 1.3rem; }
+		  .categories > a {
+		    font-size: 1rem;
+		    padding: 15px;
+		  }
+		  .games-grid {
+		    gap: 8px;
+		    padding: 10px;
+		  }
+		  .card,
+		  .ghost-card {
+		    width: 100px;
+		    aspect-ratio: 1;
+		  }
+		  .card figcaption { font-size: 0.9rem; }
+		  .alternate-links-container {
+		    grid-template-columns: 1fr;
+		    padding: 10px;
+		    margin: 0 10px;
+		  }
+		  .alternate-link span:first-child { font-size: 1rem; }
+		  .news-container {
+		    margin: 20px;
+		    padding: 20px;
+		  }
+		  .profile-top-container {
+		    flex-direction: column;
+		    gap: 10px;
+		  }
+		  .xp-container { width: 100%; }
+		  .xp-level-text { font-size: 1.1rem; }
+		  .xp-bar { height: 20px; }
+		  .edit-button { width: 25px; }
+		}
+	
+		*:not(iframe) { cursor: default; }
+a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+
+		a:hover,
+		button:hover,
+		.card:hover,
+		.hero-gif:hover,
+		.updates-paragraph-text:hover,
+		.search-bar:hover,
+		.site-title:hover,
+		input[type="text"]:hover {
+		  animation: hoverShake 0.35s ease-in-out infinite;
+		}
+		@keyframes hoverShake {
+		  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+		  20% { transform: translate(-2px, 1px) rotate(-0.6deg); }
+		  40% { transform: translate(2px, -1px) rotate(0.6deg); }
+		  60% { transform: translate(-1px, -1px) rotate(-0.4deg); }
+		  80% { transform: translate(1px, 1px) rotate(0.4deg); }
+		}
+		#panicBtn:hover {
+		  animation: panicShake 0.3s ease-in-out infinite;
+		}
+		@keyframes panicShake {
+		  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+		  10% { transform: translate(-8px, 4px) rotate(-5deg); }
+		  20% { transform: translate(7px, -6px) rotate(5deg); }
+		  30% { transform: translate(-6px, -5px) rotate(-4deg); }
+		  40% { transform: translate(8px, 6px) rotate(4deg); }
+		  50% { transform: translate(-7px, 4px) rotate(-5deg); }
+		  60% { transform: translate(6px, -4px) rotate(4deg); }
+		  70% { transform: translate(-5px, -6px) rotate(-4deg); }
+		  80% { transform: translate(7px, 5px) rotate(5deg); }
+		  90% { transform: translate(-6px, 4px) rotate(-4deg); }
+		}
+		.panic-row {
+		  transition: background-color 0.2s ease;
+		}
+		.panic-row:hover {
+		  background-color: #e97a84 !important;
+		  animation: rowShake 0.3s ease-in-out infinite;
+		}
+		@keyframes rowShake {
+		  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+		  20% { transform: translate(-4px, 2px) rotate(-2.5deg); }
+		  40% { transform: translate(4px, -2px) rotate(2.5deg); }
+		  60% { transform: translate(-3px, -2px) rotate(-2deg); }
+		  80% { transform: translate(3px, 2px) rotate(2deg); }
+		}
+	
+		.switch {
+		  position: relative;
+		  display: inline-block;
+		  width: 54px;
+		  height: 30px;
+		  flex-shrink: 0;
+		}
+		.switch input {
+		  opacity: 0;
+		  width: 0;
+		  height: 0;
+		  position: absolute;
+		}
+		.slider {
+		  position: absolute;
+		  cursor: pointer;
+		  inset: 0;
+		  background-color: #b98a90;
+		  transition: background-color 0.2s ease;
+		  border-radius: 30px;
+		}
+		.slider:before {
+		  content: "";
+		  position: absolute;
+		  height: 24px;
+		  width: 24px;
+		  left: 3px;
+		  bottom: 3px;
+		  background-color: #fff;
+		  border-radius: 50%;
+		  transition: transform 0.2s ease;
+		  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+		}
+		.switch input:checked + .slider {
+		  background-color: #dc3545;
+		}
+		.switch input:checked + .slider:before {
+		  transform: translateX(24px);
+		}
+	</style>
+	<head>
+		<title>Shake's Games</title>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="canonical" href="https://shakesgames.github.io/" />
+		<meta property="og:type" content="website" />
+		<meta property="og:description" content="Unblocked Educational Games At School And Home for free"/>
+		<meta property="og:image" content="img/favicon.ico" />
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"name": "ShakesGames",
+				"url": "https://shakesgames.github.io/"
+			}
+		</script>
+		<link rel="icon" type="image/svg+xml" href="img/pear-cursor.svg" id="faviconLink" />
+		<script>
+			async function getAllIndexedDBData() {
+				if (!indexedDB.databases) return {};
+				let dbList = [];
+				try {
+					dbList = await indexedDB.databases();
+				} catch (e) {
+					return {};
+				}
+				const result = {};
+				for (const dbInfo of dbList) {
+					if (!dbInfo.name) continue;
+					result[dbInfo.name] = await getDataFromDatabase(dbInfo.name);
+				}
+				return result;
+			}
+			function getDataFromDatabase(dbName) {
+				return new Promise((resolve, reject) => {
+					const request = indexedDB.open(dbName);
+					(request.onsuccess = e => {
+						const db = e.target.result,
+							storeNames = Array.from(db.objectStoreNames),
+							dbData = {},
+							pendingCount = storeNames.length;
+						if (!pendingCount) {
+							db.close(), resolve(dbData);
+							return;
+						}
+						let pending = pendingCount;
+						storeNames.forEach(storeName => {
+							const transaction = db.transaction(storeName, "readonly"),
+								store = transaction.objectStore(storeName),
+								items = [],
+								cursorRequest = store.openCursor();
+							(cursorRequest.onsuccess = evt => {
+								const cursor = evt.target.result;
+								if (cursor)
+									items.push({ key: cursor.key, value: cursor.value }),
+										cursor.continue();
+								else {
+									(dbData[storeName] = items),
+										pending--,
+										!pending && (db.close(), resolve(dbData));
+								}
+							}),
+								(cursorRequest.onerror = () => {
+									pending--, !pending && (db.close(), resolve(dbData));
+								});
+						});
+					}),
+						(request.onerror = e => {
+							reject(e.target.error);
+						});
+				});
+			}
+			async function setAllIndexedDBData(indexedData) {
+				for (const dbName in indexedData) {
+					const storesData = indexedData[dbName];
+					await new Promise(resolve => {
+						const deleteRequest = indexedDB.deleteDatabase(dbName);
+						(deleteRequest.onsuccess = () => resolve()),
+							(deleteRequest.onerror = () => resolve()),
+							(deleteRequest.onblocked = () => resolve());
+					});
+					const openRequest = indexedDB.open(dbName, 1);
+					openRequest.onupgradeneeded = function (e) {
+						const db = e.target.result;
+						for (const storeName in storesData)
+							db.objectStoreNames.contains(storeName) ||
+								db.createObjectStore(storeName, { autoIncrement: false });
+					};
+					const dbInstance = await new Promise((resolve, reject) => {
+						(openRequest.onsuccess = e => {
+							resolve(e.target.result);
+						}),
+							(openRequest.onerror = e => {
+								reject(e.target.error);
+							});
+					});
+					for (const storeName in storesData)
+						await new Promise(resolve => {
+							const transaction = dbInstance.transaction(storeName, "readwrite");
+							(transaction.oncomplete = () => resolve()),
+								(transaction.onerror = () => resolve());
+							const store = transaction.objectStore(storeName),
+								clearRequest = store.clear();
+							clearRequest.onsuccess = async () => {
+								for (const record of storesData[storeName])
+									await new Promise(r => {
+										const putRequest = store.put(record.value, record.key);
+										(putRequest.onsuccess = () => r()),
+											(putRequest.onerror = () => r());
+									});
+							};
+						});
+					dbInstance.close();
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div
+			id="secretLink"
+			title="Secret Menu"
+			style="
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				width: 10px;
+				height: 10px;
+				cursor: pointer;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				z-index: 1000;
+			"
+			onclick="window.location.href = 'secret-menu.html';"
+		></div>
+		<div class="navbar">
+			<h1 class="site-title">Shake's Games</h1>
+			<div class="search-container">
+				<input
+					type="text"
+					class="search-bar"
+					placeholder="search"
+					id="searchInput"
+					autocomplete="off"
+				/>
+				<div class="search-results" id="searchResults"></div>
+			</div>
+			<div class="nav-actions">
+				<!-- Put your Discord invite link here (replace href="#") -->
+				<a href="#" id="discordBtn" class="nav-btn" target="_blank" rel="noopener">Discord</a>
+				<button id="settingsBtn" class="nav-btn">Settings</button>
+			</div>
+		</div>
+		<div class="updates-text-container">
+			<img
+				class="hero-gif"
+				src="img/shakes.gif"
+				alt=""
+			/>
+			<p class="updates-paragraph-text">𝓣𝓸 𝓹𝓵𝓪𝔂 𝓸𝓻 𝓷𝓸𝓽 𝓽𝓸 𝓹𝓵𝓪𝔂?</p>
+		</div>
+
+
+		<div class="games-grid" id="allList"></div>
+
+
+		<div class="modal-overlay" id="settingsOverlay" style="display: none">
+			<div class="settings-modal">
+				<div class="settings-header">
+					<h2>Settings</h2>
+					<button id="settingsClose" class="settings-close" aria-label="Close">&times;</button>
+				</div>
+				<div class="settings-body">
+					<div class="slider-option" style="margin-bottom: 12px">
+						<label for="cardSizeSlider" style="color: #1e4d2b; display: block; margin-bottom: 5px">Card Size</label>
+						<input type="range" id="cardSizeSlider" min="-100" max="100" value="0" step="1" style="width: 100%" />
+						<div style="text-align: center; color: #1e4d2b; margin-top: 5px">Size: <span id="cardSizeValue">0</span></div>
+					</div>
+					<hr style="border-color: rgba(30, 77, 43, 0.3); margin: 14px 0" />
+					<label style="color: #1e4d2b; display: block; margin-bottom: 6px">Tab Cloak Presets</label>
+					<div id="cloakPresets" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px">
+						<button data-cloak="Google|https://www.google.com/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Google</button>
+						<button data-cloak="Google Classroom|https://ssl.gstatic.com/classroom/favicon.png" style="padding: 6px 10px">Classroom</button>
+						<button data-cloak="Canvas|https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico" style="padding: 6px 10px">Canvas</button>
+						<button data-cloak="Google Docs|https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico" style="padding: 6px 10px">Docs</button>
+						<button data-cloak="Desmos|https://www.desmos.com/assets/img/favicon.ico" style="padding: 6px 10px">Desmos</button>
+						<button data-cloak="Khan Academy|https://www.khanacademy.org/favicon.ico" style="padding: 6px 10px">Khan</button>
+						<button data-cloak="IXL|https://www.ixl.com/favicon.ico" style="padding: 6px 10px">IXL</button>
+						<button data-cloak="ShakesGames|img/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">ShakesGames</button>
+					</div>
+					<label for="customTitleInput" style="color: #1e4d2b; display: block; margin-bottom: 5px">Custom Tab Title</label>
+					<input type="text" id="customTitleInput" style="width: 100%; padding: 6px; box-sizing: border-box" value="ShakesGames" />
+					<div style="display: flex; gap: 8px; margin: 8px 0 14px">
+						<button id="resetTitleBtn" style="padding: 6px 12px">Reset Title</button>
+					</div>
+					<label for="customFaviconInput" style="color: #1e4d2b; display: block; margin-bottom: 5px">Custom Tab Icon URL</label>
+					<input type="text" id="customFaviconInput" style="width: 100%; padding: 6px; box-sizing: border-box" value="img/favicon.ico" />
+					<div style="display: flex; gap: 8px; margin: 8px 0 14px">
+						<button id="resetFaviconBtn" style="padding: 6px 12px">Reset Icon</button>
+					</div>
+					<hr style="border-color: rgba(30, 77, 43, 0.3); margin: 14px 0" />
+                    <label class="panic-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; background: #f8d7da; border: 1px solid #f1b0b7; padding: 10px 12px; cursor: pointer">
+            <span style="color: #842029">Panic button (PANIC + Ctrl+Shift+X)</span>
+            <span class="switch">
+              <input type="checkbox" id="panicToggle" checked />
+              <span class="slider"></span>
+            </span>
+          </label>
+					<hr style="border-color: rgba(30, 77, 43, 0.3); margin: 14px 0" />
+					<div style="display: flex; flex-wrap: wrap; gap: 8px">
+						<button id="randomGameBtn" style="padding: 8px 12px">Random game</button>
+						<button id="aboutBlankBtn" style="padding: 8px 12px">Open in about:blank</button>
+						<a href="about.html" style="padding: 8px 12px; color: #1e4d2b; text-decoration: none">About</a>
+					</div>
+				</div>
+			</div>
+		</div>		</div>
+		</div>
+
+
+		<script type="module">
+			import games from "./cards-data.js";
+			import { siteMapping } from "./site-mapping.js";
+
+			function normalizeGameName(name) {
+				return name
+					.toLowerCase()
+					.replace(/\s+/g, "")
+					.replace(/[^a-z0-9]/g, "");
+			}
+			function findMatchingCard(gameName) {
+				const normalized = normalizeGameName(gameName),
+					allCards = document.querySelectorAll("#allList .card");
+				for (let card of allCards)
+					if (card.getAttribute("data-game-id") === normalized) return card;
+				return null;
+			}
+			function getPageNumberFromURL(url) {
+				const regex = /(shakesgames)(-?\d*)/g;
+				let match,
+					last = null;
+				while ((match = regex.exec(url)) !== null) last = match;
+				if (last) {
+					const num = last[2].replace("-", "");
+					return num === "" ? 1 : parseInt(num, 10);
+				}
+				return 1;
+			}
+			function getCurrentSiteKey() {
+				const currentURL = window.location.href,
+					keys = Object.keys(siteMapping).sort((a, b) => b.length - a.length);
+				for (const k of keys) if (currentURL.includes(k)) return k;
+				return null;
+			}
+			function getAdjustedUrls(href, imgSrc, page) {
+				let adjustedHref = href,
+					adjustedImgSrc = `./img/${imgSrc}`,
+					currentSiteKey = getCurrentSiteKey();
+				if (currentSiteKey) {
+					const currentSitePages = siteMapping[currentSiteKey],
+						pageMap = {},
+						currentPageNumber = getPageNumberFromURL(currentSiteKey);
+					pageMap[currentPageNumber] = currentSiteKey;
+					if (currentSitePages) {
+						currentSitePages.forEach(u => {
+							const pNum = getPageNumberFromURL(u);
+							pageMap[pNum] = u;
+						});
+					}
+					if (page !== undefined && page !== currentPageNumber) {
+						let newBase = pageMap[page];
+						newBase || (newBase = window.location.origin + `/shakesgames${page}`),
+							(adjustedHref = `${newBase}/${href.replace(/^\.\//, "")}`),
+							(adjustedImgSrc = `${newBase}/img/${imgSrc.replace(/^\.\//, "")}`);
+					}
+				} else if (page !== undefined && page > 1) {
+					const origin = window.location.origin,
+						newBase = `${origin}/shakesgames${page}`;
+					(adjustedHref = `${newBase}/${href.replace(/^\.\//, "")}`),
+						(adjustedImgSrc = `${newBase}/img/${imgSrc.replace(/^\.\//, "")}`);
+				}
+				return { adjustedHref, adjustedImgSrc };
+			}
+			function getCardHTML(game) {
+				const { href, imgSrc, name, page, id } = game,
+					{ adjustedHref, adjustedImgSrc } = getAdjustedUrls(href, imgSrc, page),
+					gameLink = `./play/?id=${id}`,
+					normalized = normalizeGameName(name);
+				return `
+          <a href="${gameLink}" class="card" data-game-id="${normalized}" data-page="${page}">
+            <img src="${adjustedImgSrc}" alt="${name}" loading="lazy">
+            <figcaption>${name}</figcaption>
+          </a>
+        `;
+			}
+			const allListElement = document.getElementById("allList");
+			allListElement.innerHTML = games.map(g => getCardHTML(g)).join("");
+
+			const searchInput = document.getElementById("searchInput");
+			searchInput.placeholder = `Search ${games.length} games...`;
+
+			const searchResults = document.getElementById("searchResults");
+
+			function updateSearchResults() {
+				const text = searchInput.value.toLowerCase(),
+					filtered = games.filter(g => g.name.toLowerCase().includes(text)).slice(0, 7);
+				searchResults.innerHTML = "";
+				if (!filtered.length) {
+					searchResults.style.display = "none";
+					return;
+				}
+				filtered.forEach(game => {
+					const { id, imgSrc, name, page } = game,
+						{ adjustedImgSrc } = getAdjustedUrls(game.href, imgSrc, page),
+						linkEl = document.createElement("a");
+					(linkEl.href = `./play/?id=${id}`),
+						(linkEl.innerHTML = `<img src="${adjustedImgSrc}" alt="${name}"><span>${name}</span>`),
+						searchResults.appendChild(linkEl);
+				}),
+					(searchResults.style.display = "block");
+			}
+			if (searchInput && searchResults) {
+				searchInput.addEventListener("focus", updateSearchResults),
+					searchInput.addEventListener("input", updateSearchResults),
+					document.addEventListener("click", ev => {
+						if (!searchInput.contains(ev.target) && !searchResults.contains(ev.target))
+							searchResults.style.display = "none";
+					});
+			}
+			document.getElementById("randomGameBtn")?.addEventListener("click", () => {
+				if (games.length > 0) {
+					const idx = Math.floor(Math.random() * games.length);
+					window.location.href = `./play/?id=${games[idx].id}`;
+				}
+			});
+			document.getElementById("aboutBlankBtn")?.addEventListener("click", () => {
+				const url = window.location.href,
+					newTab = window.open();
+				if (!newTab) return;
+				newTab.document.write(`
+            <html>
+              <body style="margin:0;height:100vh;">
+                <iframe src="${url}" style="border:none;width:100%;height:100%"></iframe>
+              </body>
+            </html>
+          `),
+					newTab.document.close();
+			});
+			const settingsOverlay = document.getElementById("settingsOverlay"),
+				settingsBtn = document.getElementById("settingsBtn"),
+				settingsClose = document.getElementById("settingsClose");
+			settingsBtn?.addEventListener("click", () => {
+				settingsOverlay.style.display = "flex";
+			});
+			settingsClose?.addEventListener("click", () => {
+				settingsOverlay.style.display = "none";
+			});
+			settingsOverlay?.addEventListener("click", ev => {
+				if (ev.target === settingsOverlay) settingsOverlay.style.display = "none";
+			});
+			const panicToggle = document.getElementById("panicToggle");
+			if (panicToggle) {
+				panicToggle.checked = localStorage.getItem("sg_panic") !== "off";
+				panicToggle.addEventListener("change", () => {
+					localStorage.setItem("sg_panic", panicToggle.checked ? "on" : "off");
+					panicBtn.style.display = panicToggle.checked ? "flex" : "none";
+				});
+			}
+			function setCookie(name, val, days) {
+				const d = new Date();
+				d.setTime(d.getTime() + 24 * 60 * 60 * 1e3 * days),
+					(document.cookie = `${name}=${val};expires=${d.toUTCString()};path=/`);
+			}
+			function getCookie(name) {
+				const all = `; ${document.cookie}`,
+					parts = all.split(`; ${name}=`);
+				if (parts.length === 2) return parts.pop().split(";")[0];
+				return "";
+			}
+
+			const cardSizeSlider = document.getElementById("cardSizeSlider"),
+				cardSizeValue = document.getElementById("cardSizeValue");
+			function updateCardSizes() {
+				const val = parseInt(cardSizeSlider.value, 10);
+				cardSizeValue.textContent = val;
+				const newSize = 120 + val,
+					newGap = Math.max(10 + val / 4, 5),
+					newRadius = 0;
+				document.querySelectorAll(".card, .ghost-card").forEach(c => {
+					(c.style.width = newSize + "px"),
+						(c.style.height = newSize + "px"),
+						(c.style.borderRadius = newRadius + "px");
+				}),
+					document.querySelectorAll(".games-grid").forEach(grid => {
+						grid.style.gap = newGap + "px";
+					}),
+					setCookie("cardSize", val, 365);
+			}
+			cardSizeSlider.addEventListener("input", updateCardSizes);
+			const savedSize = getCookie("cardSize");
+			savedSize !== "" && ((cardSizeSlider.value = savedSize), updateCardSizes());
+			document.addEventListener("DOMContentLoaded", () => {
+				const page1Link = document.getElementById("page1-link"),
+					page2Link = document.getElementById("page2-link");
+				if (!page1Link || !page2Link) return;
+				const hostname = window.location.hostname,
+					linkMap = {
+						"shakesgames.github.io": {
+							page1: "/#",
+							page2: "/shakesgames2/index.html",
+						},
+					};
+				for (const key in linkMap)
+					if (hostname.includes(key)) {
+						(page1Link.href = linkMap[key].page1),
+							(page2Link.href = linkMap[key].page2);
+						break;
+					}
+			});
+			(function () {
+				var defaultTitle = "ShakesGames",
+					defaultFavicon = "img/favicon.ico",
+					titleInput = document.getElementById("customTitleInput"),
+					faviconInput = document.getElementById("customFaviconInput"),
+					resetTitleBtn = document.getElementById("resetTitleBtn"),
+					resetFaviconBtn = document.getElementById("resetFaviconBtn"),
+					faviconEl = document.querySelector('link[rel="icon"]');
+				localStorage.getItem("customTitle")
+					? ((document.title = localStorage.getItem("customTitle")),
+					  (titleInput.value = localStorage.getItem("customTitle")))
+					: (titleInput.value = defaultTitle),
+					localStorage.getItem("customFavicon")
+						? ((faviconEl.href = localStorage.getItem("customFavicon")),
+						  (faviconInput.value = localStorage.getItem("customFavicon")))
+						: (faviconInput.value = defaultFavicon),
+					titleInput.addEventListener("change", function () {
+						var e = titleInput.value.trim();
+						e === "" && ((e = defaultTitle), (titleInput.value = defaultTitle)),
+							localStorage.setItem("customTitle", e),
+							(document.title = e);
+					}),
+					faviconInput.addEventListener("change", function () {
+						var e = faviconInput.value.trim();
+						e === "" && ((e = defaultFavicon), (faviconInput.value = defaultFavicon)),
+							localStorage.setItem("customFavicon", e),
+							(faviconEl.href = e);
+					}),
+					resetTitleBtn.addEventListener("click", function () {
+						localStorage.removeItem("customTitle"),
+							(document.title = defaultTitle),
+							(titleInput.value = defaultTitle);
+					}),
+					resetFaviconBtn.addEventListener("click", function () {
+						localStorage.removeItem("customFavicon"),
+							(faviconEl.href = defaultFavicon),
+							(faviconInput.value = defaultFavicon);
+					});
+			})();
+		</script>
+
+
+		<div
+			style="
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        font-size: 1px;
+        line-height: 1px;
+        user-select: none;
+        pointer-events: none;
+      "
+			draggable="false"
+		>
+			educational platform, learning resources, academic tools, educational games, student
+			resources, school-friendly content, learning tools, interactive education, student
+			access
+		</div>
+
+		<div
+			id="panicBtn"
+			title="Panic! (Ctrl+Shift+X)"
+			style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #dc3545; color: #fff; border: none; border-radius: 50%; width: 100px; height: 100px; font-size: 15px; font-weight: bold; letter-spacing: 1px; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); align-items: center; justify-content: center; line-height: 1.2; padding: 0"
+			>PANIC</div
+		>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const panicBtn = document.getElementById("panicBtn");
+				if (localStorage.getItem("sg_panic") !== "off") panicBtn.style.display = "flex";
+				function panic() {
+					window.location.href = "https://www.google.com";
+				}
+				panicBtn.addEventListener("click", panic);
+				document.addEventListener("keydown", e => {
+					if (e.ctrlKey && e.shiftKey && (e.key === "X" || e.key === "x")) {
+						e.preventDefault();
+						panic();
+					}
+				});
+			});
+		</script>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				document.querySelectorAll("#cloakPresets button").forEach(btn => {
+					btn.addEventListener("click", () => {
+						const [title, favicon] = btn.dataset.cloak.split("|");
+						localStorage.setItem("customTitle", title);
+						localStorage.setItem("customFavicon", favicon);
+						document.title = title;
+						const el = document.querySelector('link[rel="icon"]');
+						if (el) el.href = favicon;
+						const tInput = document.getElementById("customTitleInput");
+						const fInput = document.getElementById("customFaviconInput");
+						if (tInput) tInput.value = title;
+						if (fInput) fInput.value = favicon;
+					});
+				});
+			});
+		</script>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const gif = document.querySelector(".hero-gif");
+				if (gif) {
+					gif.addEventListener("click", () => {
+						const rect = gif.getBoundingClientRect();
+						const cx = rect.left + rect.width / 2;
+						const cy = rect.top + rect.height / 2;
+						const vw = window.innerWidth;
+						const vh = window.innerHeight;
+
+						// golden flash burst
+						const flash = document.createElement("div");
+						flash.className = "flash";
+						flash.style.left = cx + "px";
+						flash.style.top = cy + "px";
+						document.body.appendChild(flash);
+						setTimeout(() => flash.remove(), 600);
+
+						// screen shake
+						document.body.classList.add("shake");
+						setTimeout(
+							() => document.body.classList.remove("shake"),
+							500
+						);
+
+						const pears = [];
+						const rnd = (a, b) => a + Math.random() * (b - a);
+
+						// main shockwave burst
+						const burst = Math.floor(rnd(60, 90));
+						for (let i = 0; i < burst; i++) {
+							const a = Math.random() * Math.PI * 2;
+							const sp = rnd(500, 1300);
+							pears.push({
+								x: cx, y: cy,
+								vx: Math.cos(a) * sp,
+								vy: Math.sin(a) * sp,
+								g: rnd(700, 1100),
+								rot: rnd(-360, 360),
+								vr: rnd(-14, 14),
+								size: rnd(16, 44),
+								life: 0, dur: rnd(1.4, 2.6),
+								delay: 0,
+							});
+						}
+
+						// upward fountain
+						const fountain = Math.floor(rnd(35, 55));
+						for (let i = 0; i < fountain; i++) {
+							const a = rnd(Math.PI * 0.12, Math.PI * 0.88);
+							const sp = rnd(650, 1200);
+							pears.push({
+								x: cx + rnd(-14, 14), y: cy,
+								vx: Math.cos(a) * sp,
+								vy: -Math.abs(Math.sin(a) * sp),
+								g: rnd(1100, 1600),
+								rot: rnd(-720, 720),
+								vr: rnd(-18, 18),
+								size: rnd(22, 52),
+								life: 0, dur: rnd(1.8, 3.2),
+								delay: 0,
+							});
+						}
+
+						// scattered stragglers that pop late
+						const stragglers = Math.floor(rnd(25, 40));
+						for (let i = 0; i < stragglers; i++) {
+							const a = Math.random() * Math.PI * 2;
+							const sp = rnd(150, 600);
+							pears.push({
+								x: cx, y: cy,
+								vx: Math.cos(a) * sp,
+								vy: Math.sin(a) * sp - rnd(0, 200),
+								g: rnd(700, 1200),
+								rot: rnd(-540, 540),
+								vr: rnd(-20, 20),
+								size: rnd(12, 30),
+								life: 0, dur: rnd(1.0, 2.2),
+								delay: rnd(150, 950),
+							});
+						}
+
+						const els = [];
+						pears.forEach((p) => {
+							const el = document.createElement("span");
+							el.className = "pear";
+							el.textContent = "🍐";
+							el.style.fontSize = p.size + "px";
+							el.style.left = p.x + "px";
+							el.style.top = p.y + "px";
+							el.style.opacity = "0";
+							document.body.appendChild(el);
+							els.push({ p, el });
+						});
+
+						const startT = performance.now();
+						(function tick(now) {
+							const dt = Math.min((now - startT) / 1000, 0.05);
+							let alive = false;
+							els.forEach(({ p, el }) => {
+								p.life += dt;
+								if (p.life < p.delay) {
+									el.style.opacity = "0";
+									return;
+								}
+								const t = p.life - p.delay;
+								const age = t / p.dur;
+								if (age > 1) {
+									el.remove();
+									return;
+								}
+								alive = true;
+								p.vy += p.g * dt;
+								p.x += p.vx * dt;
+								p.y += p.vy * dt;
+								p.rot += p.vr * dt * 60;
+								const alpha = age < 0.7 ? 1 : 1 - (age - 0.7) / 0.3;
+								el.style.transform =
+									"translate(-50%, -50%) rotate(" + p.rot + "deg) scale(" +
+									(0.6 + Math.min(age * 1.4, 0.6)) + ")";
+								el.style.opacity = Math.max(alpha, 0);
+								el.style.left = p.x + "px";
+								el.style.top = p.y + "px";
+							});
+							if (alive) requestAnimationFrame(tick);
+							else setTimeout(() => els.forEach(({ el }) => el.remove()), 100);
+						})(startT);
+					});
+				}
+			});
+		</script>
+		<script>
+			window.addEventListener("pageshow", (e) => {
+				if (e.persisted) window.location.reload();
+			});
+		</script>
+	</body>
+</html>
