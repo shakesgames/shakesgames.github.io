@@ -614,23 +614,6 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 	</style>
   </head>
   <body>
-    <div
-      id="secretLink"
-      title="Secret Menu"
-      style="
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 10px;
-        height: 10px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-      "
-    ></div>
-
     <div class="header">
       <a href="../index.html" style="text-decoration: none"><h1 class="site-title">Shake's Games</h1></a>
       <div class="search-container">
@@ -989,26 +972,6 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
               searchResults.style.display = "none";
             }
           });
-        }
-      });
-    </script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        document
-          .getElementById("secretLink")
-          .addEventListener("click", function () {
-            window.location.href = "../secret-menu.html";
-          });
-      });
-
-      document.addEventListener("keydown", function (event) {
-        if (
-          ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(
-            event.key
-          )
-        ) {
-          event.preventDefault();
         }
       });
     </script>
