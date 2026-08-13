@@ -454,7 +454,7 @@
 		.search-results a:focus,
 		.search-results a:hover {
 		  outline: none;
-		  background: rgba(50, 50, 50, 0.7);
+		  background: #e9dbb4;
 		  padding-left: 15px;
 		}
 		.search-results img {
@@ -1369,8 +1369,11 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
           </a>
         `;
 			}
+			const sortedGames = [...games].sort((a, b) =>
+				a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" })
+			);
 			const allListElement = document.getElementById("allList");
-			allListElement.innerHTML = games.map(g => getCardHTML(g)).join("");
+			allListElement.innerHTML = sortedGames.map(g => getCardHTML(g)).join("");
 
 			const searchInput = document.getElementById("searchInput");
 			searchInput.placeholder = `Search ${games.length} games...`;
@@ -1379,7 +1382,7 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 
 			function updateSearchResults() {
 				const text = searchInput.value.toLowerCase(),
-					filtered = games.filter(g => g.name.toLowerCase().includes(text)).slice(0, 7);
+					filtered = sortedGames.filter(g => g.name.toLowerCase().includes(text)).slice(0, 7);
 				searchResults.innerHTML = "";
 				if (!filtered.length) {
 					searchResults.style.display = "none";
