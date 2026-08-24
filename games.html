@@ -292,6 +292,10 @@
       import games from "../../cards-data.js";
       import { siteMapping } from "../../site-mapping.js";
 
+      function toTitleCase(name) {
+        return name.replace(/\S+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1));
+      }
+
       document.addEventListener("DOMContentLoaded", function () {
         const cardContainer = document.getElementById("cardContainer");
 
@@ -346,6 +350,7 @@
 
         function getCardHTML(gameObject) {
           const { href, imgSrc, name, page } = gameObject;
+          const displayName = toTitleCase(name);
 
           // Adjust the href and imgSrc paths
           const adjustedHref = adjustHrefPath(href, page);
@@ -358,11 +363,11 @@
 
           const img = document.createElement("img");
           img.src = adjustedImgSrc;
-          img.alt = name;
+          img.alt = displayName;
           card.appendChild(img);
 
           const figcaption = document.createElement("figcaption");
-          figcaption.textContent = name;
+          figcaption.textContent = displayName;
           card.appendChild(figcaption);
 
           return card;

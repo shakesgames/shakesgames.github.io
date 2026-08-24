@@ -11,7 +11,7 @@
 
 
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>About | Shake's Games</title>
 		<link rel="icon" type="image/svg+xml" href="img/pear-cursor.svg" />
     <style>
@@ -21,30 +21,124 @@
         padding: 0;
         background-color: #fdf6e3;
         color: #1e4d2b;
+        overflow-x: hidden;
         cursor: default;
       }
       .navbar {
         background-color: rgba(253, 246, 227, 0.95);
+        backdrop-filter: blur(10px);
         padding: 15px 30px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        gap: 15px;
+        box-shadow: 0 4px 15px rgba(30, 77, 43, 0.15);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
       }
-      .logo {
+      .site-title {
         font-family: "Times New Roman", Times, serif;
         color: #1e4d2b;
         font-weight: bold;
         font-size: 2.1rem;
-        text-decoration: none;
         margin: 0;
-      }
-      .back-link {
-        color: #1e4d2b;
+        white-space: nowrap;
         text-decoration: none;
       }
-      .back-link:hover {
-        text-decoration: underline;
+      .search-container {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .search-bar {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        width: 275px;
+        border: 1px solid rgba(30, 77, 43, 0.35);
+        background-color: #fbf5e2;
+        color: #1e4d2b;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 0 10px rgba(30, 77, 43, 0.08);
+      }
+      .search-bar::placeholder {
+        color: rgba(30, 77, 43, 0.55);
+      }
+      .search-bar:focus {
+        outline: none;
+        background-color: #f8efd0;
+      }
+      .search-results {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(253, 246, 227, 0.98);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(30, 77, 43, 0.25);
+        width: 313px;
+        display: none;
+        overflow: hidden;
+        z-index: 1000;
+        box-shadow: 0 10px 40px rgba(30, 77, 43, 0.2);
+      }
+      .search-results a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #1e4d2b;
+        padding: 10px;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+      }
+      .search-results a:focus,
+      .search-results a:hover {
+        outline: none;
+        background: #e9dbb4;
+        padding-left: 15px;
+      }
+      .search-results img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        margin-right: 15px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      .search-results a:last-child {
+        border-bottom: none;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-btn {
+        background: #f3ead1;
+        border: 1px solid rgba(30, 77, 43, 0.35);
+        color: #1e4d2b;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.2s ease;
+        font-family: "Times New Roman", Times, serif;
+      }
+      .nav-btn:hover {
+        background: #e9dbb4;
+      }
+      .nav-btn.back-btn {
+        background: #1e4d2b;
+        border-color: #1e4d2b;
+        color: #fdf6e3;
+      }
+      .nav-btn.back-btn:hover {
+        background: #173d20;
+        border-color: #173d20;
+        color: #fdf6e3;
       }
       .container {
         max-width: 720px;
@@ -84,9 +178,136 @@
       .discord-btn:hover {
         background: #e9dbb4;
       }
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        z-index: 2000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .settings-modal {
+        background: #fdf6e3;
+        border: 1px solid rgba(30, 77, 43, 0.3);
+        border-radius: 14px;
+        max-width: 480px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+      }
+      .settings-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 20px;
+        border-bottom: 1px solid rgba(30, 77, 43, 0.3);
+      }
+      .settings-header h2 {
+        margin: 0;
+        color: #1e4d2b;
+        font-size: 1.2rem;
+      }
+      .settings-close {
+        background: none;
+        border: none;
+        color: #1e4d2b;
+        font-size: 1.6rem;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .settings-body {
+        padding: 20px;
+      }
+      .settings-body button {
+        background: #1e4d2b;
+        border: none;
+        border-radius: 0;
+        color: #fdf6e3;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-family: "Times New Roman", Times, serif;
+      }
+      .settings-body button:hover {
+        background: #173d20;
+      }
+      .settings-body input[type="text"] {
+        background: #fbf5e2;
+        border: 1px solid rgba(30, 77, 43, 0.4);
+        border-radius: 0;
+        color: #1e4d2b;
+        padding: 6px;
+        font-family: "Times New Roman", Times, serif;
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 54px;
+        height: 30px;
+        flex-shrink: 0;
+      }
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        position: absolute;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        inset: 0;
+        background-color: #b98a90;
+        transition: background-color 0.2s ease;
+        border-radius: 30px;
+      }
+      .slider:before {
+        content: "";
+        position: absolute;
+        height: 24px;
+        width: 24px;
+        left: 3px;
+        bottom: 3px;
+        background-color: #fff;
+        border-radius: 50%;
+        transition: transform 0.2s ease;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+      .switch input:checked + .slider {
+        background-color: #dc3545;
+      }
+      .switch input:checked + .slider:before {
+        transform: translateX(24px);
+      }
+      .panic-row {
+        transition: background-color 0.2s ease;
+      }
+      .panic-row:hover {
+        background-color: #e97a84 !important;
+      }
+      @media (max-width: 768px) {
+        .navbar {
+          flex-wrap: wrap;
+          padding: 10px 15px;
+        }
+        .site-title {
+          font-size: 1.8rem;
+        }
+        .search-bar {
+          width: 90%;
+          font-size: 0.9rem;
+        }
+        .nav-actions {
+          flex-wrap: wrap;
+        }
+        .container {
+          margin: 20px auto;
+        }
+      }
     
 		*:not(iframe) { cursor: default; }
-a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+a, button, input, select, summary, label, details, [role="button"], [tabindex], [onclick], .card, .card *, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn, .hero-gif, .alpha-btn, .edit-button, .app-item, .profile-picture-container, .modal-link, .modal-close, .settings-close, .site-title, .updates-paragraph-text, .alternate-link { cursor: pointer !important; }
 
 		a:hover,
 		button:hover,
@@ -109,9 +330,69 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
   </head>
   <body>
     <div class="navbar">
-      <a href="index.html" class="logo">Shake's Games</a>
-      <a href="index.html" class="back-link">← Back to games</a>
+      <a href="index.html" class="site-title">Shake's Games</a>
+      <div class="search-container">
+        <input
+          type="text"
+          class="search-bar"
+          placeholder="Find your next game"
+          id="searchInput"
+          autocomplete="off"
+        />
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-btn back-btn">Back to Games</a>
+        <button id="settingsBtn" class="nav-btn">Settings</button>
+        <a href="https://discord.gg/CCCzTbhB9" class="nav-btn" target="_blank" rel="noopener">Discord</a>
+      </div>
     </div>
+
+    <div class="modal-overlay" id="settingsOverlay" style="display: none">
+      <div class="settings-modal">
+        <div class="settings-header">
+          <h2>Settings</h2>
+          <button id="settingsClose" class="settings-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="settings-body">
+          <label style="color: #1e4d2b; display: block; margin-bottom: 6px">Tab Cloak Presets</label>
+          <div id="cloakPresets" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px">
+            <button data-cloak="Google|https://www.google.com/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">Google</button>
+            <button data-cloak="Google Classroom|https://ssl.gstatic.com/classroom/favicon.png" style="padding: 6px 10px">Classroom</button>
+            <button data-cloak="Canvas|https://du11hjcvx0uqb.cloudfront.net/dist/images/favicon-e10d657a73.ico" style="padding: 6px 10px">Canvas</button>
+            <button data-cloak="Google Docs|https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico" style="padding: 6px 10px">Docs</button>
+            <button data-cloak="Desmos|https://www.desmos.com/assets/img/favicon.ico" style="padding: 6px 10px">Desmos</button>
+            <button data-cloak="Khan Academy|https://www.khanacademy.org/favicon.ico" style="padding: 6px 10px">Khan</button>
+            <button data-cloak="IXL|https://www.ixl.com/favicon.ico" style="padding: 6px 10px">IXL</button>
+            <button data-cloak="ShakesGames|img/favicon.ico" style="padding: 6px 10px; background: #1e4d2b; color: #fdf6e3; border: none; border-radius: 0; cursor: pointer">ShakesGames</button>
+          </div>
+          <label for="customTitleInput" style="color: #1e4d2b; display: block; margin-bottom: 5px">Custom Tab Title</label>
+          <input type="text" id="customTitleInput" style="width: 100%; padding: 6px; box-sizing: border-box" value="ShakesGames" />
+          <div style="display: flex; gap: 8px; margin: 8px 0 14px">
+            <button id="resetTitleBtn" style="padding: 6px 12px">Reset Title</button>
+          </div>
+          <label for="customFaviconInput" style="color: #1e4d2b; display: block; margin-bottom: 5px">Custom Tab Icon URL</label>
+          <input type="text" id="customFaviconInput" style="width: 100%; padding: 6px; box-sizing: border-box" value="img/favicon.ico" />
+          <div style="display: flex; gap: 8px; margin: 8px 0 14px">
+            <button id="resetFaviconBtn" style="padding: 6px 12px">Reset Icon</button>
+          </div>
+          <hr style="border-color: rgba(30, 77, 43, 0.3); margin: 14px 0" />
+          <label class="panic-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; background: #f8d7da; border: 1px solid #f1b0b7; padding: 10px 12px; cursor: pointer">
+            <span style="color: #842029">Panic button (PANIC + Ctrl+Shift+X)</span>
+            <span class="switch">
+              <input type="checkbox" id="panicToggle" checked />
+              <span class="slider"></span>
+            </span>
+          </label>
+          <hr style="border-color: rgba(30, 77, 43, 0.3); margin: 14px 0" />
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <button id="randomGameBtn" style="padding: 8px 12px">Random game</button>
+            <button id="aboutBlankBtn" style="padding: 8px 12px">Open in about:blank</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
       <div class="card">
         <h2>What is Shake's Games?</h2>
@@ -135,8 +416,166 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
           we'll try to add it.
         </p>
         <!-- Put your Discord invite link here (replace href="#") -->
-        <a href="#" class="discord-btn" target="_blank" rel="noopener">Discord</a>
+        <a href="https://discord.gg/CCCzTbhB9" class="discord-btn" target="_blank" rel="noopener">Discord</a>
       </div>
       </div>
+
+    <div
+      id="panicBtn"
+      title="Panic! (Ctrl+Shift+X)"
+      style="display: none; position: fixed; bottom: 20px; right: 20px; z-index: 9999; background: #dc3545; color: #fff; border: none; border-radius: 50%; width: 100px; height: 100px; font-size: 15px; font-weight: bold; letter-spacing: 1px; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); align-items: center; justify-content: center; line-height: 1.2; padding: 0"
+      >PANIC</div
+    >
+
+    <script type="module">
+      import games from "./cards-data.js";
+
+      function toTitleCase(name) {
+        return name.replace(/\S+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1));
+      }
+
+      const searchInput = document.getElementById("searchInput");
+      const searchResults = document.getElementById("searchResults");
+
+      if (searchInput && searchResults) {
+        function updateSearchResults() {
+          const text = searchInput.value.toLowerCase(),
+            filtered = games.filter(g => g.name.toLowerCase().includes(text)).slice(0, 7);
+          searchResults.innerHTML = "";
+          if (!filtered.length) {
+            searchResults.style.display = "none";
+            return;
+          }
+          filtered.forEach(game => {
+            const linkEl = document.createElement("a");
+            linkEl.href = `./play/?id=${game.id}`;
+            linkEl.innerHTML = `<img src="./img/${game.imgSrc}" alt="${game.name}"><span>${toTitleCase(game.name)}</span>`;
+            searchResults.appendChild(linkEl);
+          });
+          searchResults.style.display = "block";
+        }
+        searchInput.addEventListener("focus", updateSearchResults);
+        searchInput.addEventListener("input", updateSearchResults);
+        document.addEventListener("click", ev => {
+          if (!searchInput.contains(ev.target) && !searchResults.contains(ev.target))
+            searchResults.style.display = "none";
+        });
+      }
+
+      const settingsOverlay = document.getElementById("settingsOverlay"),
+        settingsBtn = document.getElementById("settingsBtn"),
+        settingsClose = document.getElementById("settingsClose");
+      settingsBtn?.addEventListener("click", () => {
+        settingsOverlay.style.display = "flex";
+      });
+      settingsClose?.addEventListener("click", () => {
+        settingsOverlay.style.display = "none";
+      });
+      settingsOverlay?.addEventListener("click", ev => {
+        if (ev.target === settingsOverlay) settingsOverlay.style.display = "none";
+      });
+
+      const panicToggle = document.getElementById("panicToggle");
+      if (panicToggle) {
+        panicToggle.checked = localStorage.getItem("sg_panic") !== "off";
+        panicToggle.addEventListener("change", () => {
+          localStorage.setItem("sg_panic", panicToggle.checked ? "on" : "off");
+          const panicBtn = document.getElementById("panicBtn");
+          if (panicBtn) panicBtn.style.display = panicToggle.checked ? "flex" : "none";
+        });
+      }
+
+      document.querySelectorAll("#cloakPresets button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const [title, favicon] = btn.dataset.cloak.split("|");
+          localStorage.setItem("customTitle", title);
+          localStorage.setItem("customFavicon", favicon);
+          document.title = title;
+          const el = document.querySelector('link[rel="icon"]');
+          if (el) el.href = favicon;
+          const tInput = document.getElementById("customTitleInput");
+          const fInput = document.getElementById("customFaviconInput");
+          if (tInput) tInput.value = title;
+          if (fInput) fInput.value = favicon;
+        });
+      });
+
+      (function () {
+        var defaultTitle = "ShakesGames",
+          defaultFavicon = "img/favicon.ico",
+          titleInput = document.getElementById("customTitleInput"),
+          faviconInput = document.getElementById("customFaviconInput"),
+          resetTitleBtn = document.getElementById("resetTitleBtn"),
+          resetFaviconBtn = document.getElementById("resetFaviconBtn"),
+          faviconEl = document.querySelector('link[rel="icon"]');
+        localStorage.getItem("customTitle")
+          ? ((document.title = localStorage.getItem("customTitle")),
+            (titleInput.value = localStorage.getItem("customTitle")))
+          : (titleInput.value = defaultTitle),
+          localStorage.getItem("customFavicon")
+            ? ((faviconEl.href = localStorage.getItem("customFavicon")),
+              (faviconInput.value = localStorage.getItem("customFavicon")))
+            : (faviconInput.value = defaultFavicon),
+          titleInput.addEventListener("change", function () {
+            var e = titleInput.value.trim();
+            e === "" && ((e = defaultTitle), (titleInput.value = defaultTitle)),
+              localStorage.setItem("customTitle", e),
+              (document.title = e);
+          }),
+          faviconInput.addEventListener("change", function () {
+            var e = faviconInput.value.trim();
+            e === "" && ((e = defaultFavicon), (faviconInput.value = defaultFavicon)),
+              localStorage.setItem("customFavicon", e),
+              (faviconEl.href = e);
+          }),
+          resetTitleBtn.addEventListener("click", function () {
+            localStorage.removeItem("customTitle"),
+              (document.title = defaultTitle),
+              (titleInput.value = defaultTitle);
+          }),
+          resetFaviconBtn.addEventListener("click", function () {
+            localStorage.removeItem("customFavicon"),
+              (faviconEl.href = defaultFavicon),
+              (faviconInput.value = defaultFavicon);
+          });
+      })();
+
+      document.getElementById("randomGameBtn")?.addEventListener("click", () => {
+        if (games.length > 0) {
+          const idx = Math.floor(Math.random() * games.length);
+          window.location.href = `./play/?id=${games[idx].id}`;
+        }
+      });
+      document.getElementById("aboutBlankBtn")?.addEventListener("click", () => {
+        const url = window.location.href,
+          newTab = window.open();
+        if (!newTab) return;
+        newTab.document.write(`
+            <html>
+              <body style="margin:0;height:100vh;">
+                <iframe src="${url}" style="border:none;width:100%;height:100%"></iframe>
+              </body>
+            </html>
+          `),
+          newTab.document.close();
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const panicBtn = document.getElementById("panicBtn");
+        if (localStorage.getItem("sg_panic") !== "off") panicBtn.style.display = "flex";
+        function panic() {
+          window.location.href = "https://www.google.com";
+        }
+        panicBtn.addEventListener("click", panic);
+        document.addEventListener("keydown", e => {
+          if (e.ctrlKey && e.shiftKey && (e.key === "X" || e.key === "x")) {
+            e.preventDefault();
+            panic();
+          }
+        });
+      });
+    </script>
   </body>
 </html>

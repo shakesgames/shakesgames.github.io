@@ -371,6 +371,40 @@
 		  justify-content: center;
 		  gap: 10px;
 		}
+		.alphabet-filter {
+		  display: flex;
+		  flex-wrap: wrap;
+		  justify-content: center;
+		  align-items: center;
+		  gap: 6px;
+		  padding: 12px 20px 0;
+		  margin: 0 auto;
+		  max-width: 1600px;
+		}
+		.alpha-btn {
+		  background: #f3ead1;
+		  border: 1px solid rgba(30, 77, 43, 0.35);
+		  border-radius: 8px;
+		  color: #1e4d2b;
+		  font-family: var(--ff);
+		  font-size: 1rem;
+		  font-weight: 700;
+		  width: 36px;
+		  height: 36px;
+		  padding: 0;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+		}
+		.alpha-btn:hover {
+		  background: #e9dbb4;
+		}
+		.alpha-btn.active {
+		  background: #1e4d2b;
+		  border-color: #1e4d2b;
+		  color: #fdf6e3;
+		}
 		.ghost-card {
 		  background: #f3ead1;
 		  animation: pulse 1.5s infinite ease-in-out;
@@ -603,6 +637,7 @@
 		  text-align: center;
 		  max-width: 850px;
 		  margin-block: 20px;
+		  transition: background 0.6s ease, color 0.6s ease, text-shadow 0.6s ease;
 		}
 		.updates-text-container {
 		  margin: 22px 20% 10px;
@@ -1001,7 +1036,7 @@
 		}
 	
 		*:not(iframe) { cursor: default; }
-a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+a, button, input, select, summary, label, details, [role="button"], [tabindex], [onclick], .card, .card *, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn, .hero-gif, .alpha-btn, .edit-button, .app-item, .profile-picture-container, .modal-link, .modal-close, .settings-close, .site-title, .updates-paragraph-text, .alternate-link { cursor: pointer !important; }
 
 		a:hover,
 		button:hover,
@@ -1215,7 +1250,7 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 				<input
 					type="text"
 					class="search-bar"
-					placeholder="search"
+					placeholder="Find your next game"
 					id="searchInput"
 					autocomplete="off"
 				/>
@@ -1223,7 +1258,7 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 			</div>
 			<div class="nav-actions">
 				<!-- Put your Discord invite link here (replace href="#") -->
-				<a href="#" id="discordBtn" class="nav-btn" target="_blank" rel="noopener">Discord</a>
+				<a href="https://discord.gg/CCCzTbhB9" id="discordBtn" class="nav-btn" target="_blank" rel="noopener">Discord</a>
 				<button id="settingsBtn" class="nav-btn">Settings</button>
 			</div>
 		</div>
@@ -1236,6 +1271,8 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 			<p class="updates-paragraph-text">𝓣𝓸 𝓹𝓵𝓪𝔂 𝓸𝓻 𝓷𝓸𝓽 𝓽𝓸 𝓹𝓵𝓪𝔂?</p>
 		</div>
 
+
+		<div class="alphabet-filter" id="alphabetFilter"></div>
 
 		<div class="games-grid" id="allList"></div>
 
@@ -1304,6 +1341,9 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 					.replace(/\s+/g, "")
 					.replace(/[^a-z0-9]/g, "");
 			}
+			function toTitleCase(name) {
+				return name.replace(/\S+/g, w => w.charAt(0).toUpperCase() + w.slice(1));
+			}
 			function findMatchingCard(gameName) {
 				const normalized = normalizeGameName(gameName),
 					allCards = document.querySelectorAll("#allList .card");
@@ -1361,22 +1401,75 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 				const { href, imgSrc, name, page, id } = game,
 					{ adjustedHref, adjustedImgSrc } = getAdjustedUrls(href, imgSrc, page),
 					gameLink = `./play/?id=${id}`,
-					normalized = normalizeGameName(name);
+					normalized = normalizeGameName(name),
+					displayName = toTitleCase(name);
 				return `
           <a href="${gameLink}" class="card" data-game-id="${normalized}" data-page="${page}">
-            <img src="${adjustedImgSrc}" alt="${name}" loading="lazy">
-            <figcaption>${name}</figcaption>
+            <img src="${adjustedImgSrc}" alt="${displayName}" loading="lazy">
+            <figcaption>${displayName}</figcaption>
           </a>
         `;
 			}
-			const sortedGames = [...games].sort((a, b) =>
-				a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: "base" })
-			);
-			const allListElement = document.getElementById("allList");
+			function firstAlnumChar(name) {
+				const m = name.toLowerCase().match(/[a-z0-9]/);
+				return m ? m[0] : "";
+			}
+			const sortedGames = [...games].sort((a, b) => {
+				const aNum = /[0-9]/.test(firstAlnumChar(a.name)) ? 1 : 0,
+					bNum = /[0-9]/.test(firstAlnumChar(b.name)) ? 1 : 0;
+				if (aNum !== bNum) return aNum - bNum;
+				return a.name.localeCompare(b.name, undefined, {
+					numeric: true,
+					sensitivity: "base",
+				});
+			});
+			const allListElement = document.getElementById("allList"),
+				alphabetFilter = document.getElementById("alphabetFilter");
 			allListElement.innerHTML = sortedGames.map(g => getCardHTML(g)).join("");
 
+			let activeFilter = null;
+			function cardMatchesFilter(card) {
+				if (activeFilter === null) return true;
+				const first = (card.getAttribute("data-game-id") || "")[0] || "";
+				return activeFilter === "#" ? /[0-9]/.test(first) : first === activeFilter;
+			}
+			function renderGames() {
+				allListElement.querySelectorAll(".card").forEach(card => {
+					card.style.display = cardMatchesFilter(card) ? "" : "none";
+				});
+				if (alphabetFilter) {
+					alphabetFilter.querySelectorAll(".alpha-btn").forEach(btn => {
+						btn.classList.toggle("active", btn.dataset.filter === activeFilter);
+					});
+				}
+			}
+			if (alphabetFilter) {
+				"abcdefghijklmnopqrstuvwxyz".split("").forEach(l => {
+					const btn = document.createElement("button");
+					btn.className = "alpha-btn";
+					btn.type = "button";
+					btn.dataset.filter = l;
+					btn.textContent = l.toUpperCase();
+					btn.title = `Show games starting with ${l.toUpperCase()}`;
+					alphabetFilter.appendChild(btn);
+				});
+				const hashBtn = document.createElement("button");
+				hashBtn.className = "alpha-btn";
+				hashBtn.type = "button";
+				hashBtn.dataset.filter = "#";
+				hashBtn.textContent = "#";
+				hashBtn.title = "Show games starting with a number";
+				alphabetFilter.appendChild(hashBtn);
+				alphabetFilter.addEventListener("click", ev => {
+					const btn = ev.target.closest(".alpha-btn");
+					if (!btn) return;
+					activeFilter = activeFilter === btn.dataset.filter ? null : btn.dataset.filter;
+					renderGames();
+				});
+			}
+
 			const searchInput = document.getElementById("searchInput");
-			searchInput.placeholder = `Search ${games.length} games...`;
+			searchInput.placeholder = "Find your next game";
 
 			const searchResults = document.getElementById("searchResults");
 
@@ -1391,9 +1484,10 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 				filtered.forEach(game => {
 					const { id, imgSrc, name, page } = game,
 						{ adjustedImgSrc } = getAdjustedUrls(game.href, imgSrc, page),
-						linkEl = document.createElement("a");
+						linkEl = document.createElement("a"),
+						displayName = toTitleCase(name);
 					(linkEl.href = `./play/?id=${id}`),
-						(linkEl.innerHTML = `<img src="${adjustedImgSrc}" alt="${name}"><span>${name}</span>`),
+						(linkEl.innerHTML = `<img src="${adjustedImgSrc}" alt="${displayName}"><span>${displayName}</span>`),
 						searchResults.appendChild(linkEl);
 				}),
 					(searchResults.style.display = "block");
@@ -1728,6 +1822,61 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 						})(startT);
 					});
 				}
+			});
+		</script>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const box = document.querySelector(".updates-paragraph-text");
+				if (!box) return;
+
+				function hslToRgb(h, s, l) {
+					s /= 100;
+					l /= 100;
+					const a = s * Math.min(l, 1 - l);
+					const f = n => {
+						const k = (n + h / 30) % 12;
+						return l - a * Math.max(-1, Math.min(k - 3, Math.min(9 - k, 1)));
+					};
+					return [f(0) * 255, f(8) * 255, f(4) * 255];
+				}
+				function relativeLuminance([r, g, b]) {
+					const c = v => {
+						const x = v / 255;
+						return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4);
+					};
+					return 0.2126 * c(r) + 0.7152 * c(g) + 0.0722 * c(b);
+				}
+
+				box.addEventListener("click", () => {
+					const h = Math.floor(Math.random() * 360);
+					const s = Math.floor(60 + Math.random() * 35); // 60-95% saturation
+					const anchor = 18 + Math.random() * 64; // 18-82% lightness
+					const l1 = Math.min(92, Math.max(10, anchor + (Math.random() * 24 - 12)));
+					const l2 = Math.min(92, Math.max(10, anchor + (Math.random() * 24 - 12)));
+					const l3 = Math.min(92, Math.max(10, anchor + (Math.random() * 24 - 12)));
+					const l4 = Math.min(92, Math.max(10, anchor + (Math.random() * 24 - 12)));
+					const hue2 = (h + 40) % 360;
+					const hue3 = (h + 320) % 360;
+
+					box.style.background =
+						`linear-gradient(156deg, hsl(${h}, ${s}%, ${l1}%), hsl(${hue2}, ${s}%, ${l2}%), hsl(${hue3}, ${s}%, ${l3}%), hsl(${h}, ${s}%, ${l4}%))`;
+
+					// pick a legible text color based on the gradient's average luminance
+					const stops = [
+						[h, s, l1],
+						[hue2, s, l2],
+						[hue3, s, l3],
+						[h, s, l4],
+					];
+					const lum =
+						stops.reduce(
+							(sum, [hh, ss, ll]) => sum + relativeLuminance(hslToRgb(hh, ss, ll)),
+							0
+						) / stops.length;
+					const useDarkText = lum > 0.267;
+					box.style.color = useDarkText ? "#1e4d2b" : "#fdf6e3";
+					box.style.textShadow = useDarkText ? "none" : "0 1px 3px rgba(0, 0, 0, 0.55)";
+				});
 			});
 		</script>
 		<script>

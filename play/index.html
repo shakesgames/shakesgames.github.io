@@ -414,8 +414,8 @@
       }
       .search-bar {
         padding: 0.8rem 1.2rem;
-        font-size: 1rem;
-        width: 275px;
+        font-size: 1.15rem;
+        width: 300px;
         border: 1px solid rgba(30, 77, 43, 0.35);
         background-color: #fbf5e2;
         color: #1e4d2b;
@@ -523,7 +523,7 @@
       }
 
 		*:not(iframe) { cursor: default; }
-a, button, input, select, summary, label[for], details, [role="button"], [onclick], .card, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn { cursor: pointer !important; }
+a, button, input, select, summary, label, details, [role="button"], [tabindex], [onclick], .card, .card *, .search-bar, .nav-btn, .menu-icon, .fullscreen-button, .close-btn, .hero-gif, .alpha-btn, .edit-button, .app-item, .profile-picture-container, .modal-link, .modal-close, .settings-close, .site-title, .updates-paragraph-text, .alternate-link { cursor: pointer !important; }
 
 		a:hover,
 		button:hover,
@@ -620,7 +620,7 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
         <input
           type="text"
           class="search-bar"
-          placeholder="search"
+          placeholder="Find your next game"
           id="searchInput"
           autocomplete="off"
         />
@@ -628,7 +628,7 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
       </div>
       <div class="nav-actions">
         <!-- Put your Discord invite link here (replace href="#") -->
-        <a href="#" id="discordBtn" class="nav-btn" target="_blank" rel="noopener">Discord</a>
+        <a href="https://discord.gg/CCCzTbhB9" id="discordBtn" class="nav-btn" target="_blank" rel="noopener">Discord</a>
         <button id="settingsBtn" class="nav-btn">Settings</button>
       </div>
     </div>
@@ -666,6 +666,9 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
       import { siteMapping } from "../site-mapping.js";
 
       document.addEventListener("DOMContentLoaded", async function () {
+        function toTitleCase(name) {
+          return name.replace(/\S+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1));
+        }
         function getCurrentKeyHostOnly() {
           const host = window.location.host;
           return host;
@@ -855,7 +858,7 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
             selectedGame.href,
             page
           );
-          embedGame(embedPath, selectedGame.name);
+          embedGame(embedPath, toTitleCase(selectedGame.name));
 
           fullscreenButton.addEventListener("click", function () {
             if (gameContainer.requestFullscreen) {
@@ -908,11 +911,11 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
 
             const img = document.createElement("img");
             img.src = adjustedImgSrc;
-            img.alt = name;
+            img.alt = toTitleCase(name);
             card.appendChild(img);
 
             const figcaption = document.createElement("figcaption");
-            figcaption.textContent = name;
+            figcaption.textContent = toTitleCase(name);
             card.appendChild(figcaption);
 
             cardContainer.appendChild(card);
@@ -953,9 +956,9 @@ a, button, input, select, summary, label[for], details, [role="button"], [onclic
               linkEl.href = `../play/?id=${game.id}`;
               const img = document.createElement("img");
               img.src = adjustImgPath(game.imgSrc, game.page);
-              img.alt = game.name;
+              img.alt = toTitleCase(game.name);
               const span = document.createElement("span");
-              span.textContent = game.name;
+              span.textContent = toTitleCase(game.name);
               linkEl.appendChild(img);
               linkEl.appendChild(span);
               searchResults.appendChild(linkEl);
