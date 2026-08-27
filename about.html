@@ -14,6 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>About | Shake's Games</title>
 		<link rel="icon" type="image/png" href="img/shakesgameslogo.png" />
+    <script src="theme.js"></script>
     <style>
       body {
         font-family: "Times New Roman", Times, serif;
@@ -343,8 +344,9 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
       </div>
       <div class="nav-actions">
         <a href="index.html" class="nav-btn back-btn">Back to Games</a>
-        <button id="settingsBtn" class="nav-btn">Settings</button>
+        <button id="navRandomGameBtn" class="nav-btn" type="button">Random Game</button>
         <a href="https://discord.gg/CCCzTbhB9" class="nav-btn" target="_blank" rel="noopener">Discord</a>
+        <button id="settingsBtn" class="nav-btn">Settings</button>
       </div>
     </div>
 
@@ -540,12 +542,14 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
           });
       })();
 
-      document.getElementById("randomGameBtn")?.addEventListener("click", () => {
+      document.getElementById("randomGameBtn")?.addEventListener("click", randomGame);
+      document.getElementById("navRandomGameBtn")?.addEventListener("click", randomGame);
+      function randomGame() {
         if (games.length > 0) {
           const idx = Math.floor(Math.random() * games.length);
           window.location.href = `./play/?id=${games[idx].id}`;
         }
-      });
+      }
       document.getElementById("aboutBlankBtn")?.addEventListener("click", () => {
         const url = window.location.href,
           newTab = window.open();
