@@ -1,4 +1,5 @@
 export default [
+  { href: './html/Angry Birds/index.html', imgSrc: 'angry birds.png', name: 'Angry Birds' , 'page': 1, 'id': 1154 },
   { href: './html/sans fight/index.html', imgSrc: 'sans fight.png', name: 'Sans Fight' , 'page': 4, 'id': 944 },
   { href: './html/extreme off road cars/index.html', imgSrc: 'extreme off road cars.jpg', name: 'extreme off road cars' , 'page': 4, 'id': 941 },
   { href: './html/football legends/index.html', imgSrc: 'football legends.jpg', name: 'football legends' , 'page': 4, 'id': 946 },
