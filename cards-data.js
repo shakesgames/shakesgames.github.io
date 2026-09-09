@@ -1,6 +1,6 @@
 export default [
   { href: './html/Angry Birds/index.html', imgSrc: 'angry birds.png', name: 'Angry Birds' , 'page': 1, 'id': 1154, tags: ['new'] },
-  { href: './html/doge2048/index.html', imgSrc: 'doge2048.png', name: 'Doge2048' , 'page': 1, 'id': 1155, tags: ['new'], externalUrl: 'https://doge2048.com/' },
+  { href: './html/doge2048/index.html', imgSrc: 'doge2048.png', name: 'Doge2048' , 'page': 1, 'id': 1155, tags: ['new'] },
   { href: './html/sans fight/index.html', imgSrc: 'sans fight.png', name: 'Sans Fight' , 'page': 4, 'id': 944 },
   { href: './html/extreme off road cars/index.html', imgSrc: 'extreme off road cars.jpg', name: 'extreme off road cars' , 'page': 4, 'id': 941 },
   { href: './html/football legends/index.html', imgSrc: 'football legends.jpg', name: 'football legends' , 'page': 4, 'id': 946 },

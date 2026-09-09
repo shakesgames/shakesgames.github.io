@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+  <title>Doge2048</title>
+  <link href="style/main.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="container">
+    <div class="heading">
+      <h1 class="title">DOGE<span style="color: red">2</span><span style="color: #00ff00">0</span><span style="color: blue">4</span><span style="color: #00ffff">8</span></h1>
+      <div class="scores-container">
+        <div class="score-container">0</div>
+        <div class="best-container">0</div>
+      </div>
+    </div>
+
+    <div class="game-container">
+      <div class="doge-says"></div>
+
+      <div class="info">
+        <p>Use your arrow keys or swipe to combine similar Doges and score points!</p>
+        <p>Unlock all 11 doges to win!</p>
+        <p>Doge-ified by Tiny Mammals.</p>
+        <p>2048 Created by Gabriele Cirulli.</p>
+        <p>Based on 1024 by Veewo Studio and conceptually similar to Threes by Asher Vollmer.</p>
+      </div>
+      <div class="game-message">
+        <p></p>
+        <div class="lower">
+          <a class="keep-playing-button">Keep going</a>
+          <a class="retry-button">Try again</a>
+        </div>
+      </div>
+
+      <div class="grid-container">
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+        <div class="grid-row">
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+          <div class="grid-cell"></div>
+        </div>
+      </div>
+
+      <div class="tile-container"></div>
+    </div>
+
+    <p class="game-explanation">Use your arrow keys or swipe to combine similar Doges and score points!</p>
+
+    <div class="info-container">
+      <a class="show-info">INFO</a>
+    </div>
+  </div>
+
+  <script src="js/animframe_polyfill.js"></script>
+  <script src="js/keyboard_input_manager.js"></script>
+  <script src="js/html_actuator.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/tile.js"></script>
+  <script src="js/local_score_manager.js"></script>
+  <script src="js/game_manager.js"></script>
+  <script src="js/application.js"></script>
+  <script>
+    document.querySelector('.show-info').addEventListener('click', function () {
+      var info = document.querySelector('.info');
+      if (info.getAttribute('style') === 'display:block;') {
+        info.setAttribute('style', 'display:none;');
+        this.innerHTML = 'INFO';
+      } else {
+        info.setAttribute('style', 'display:block;');
+        this.innerHTML = 'CLOSE';
+      }
+    });
+  </script>
+</body>
+</html>
