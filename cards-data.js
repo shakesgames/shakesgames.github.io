@@ -1,5 +1,6 @@
 export default [
-  { href: './html/Angry Birds/index.html', imgSrc: 'angry birds.png', name: 'Angry Birds' , 'page': 1, 'id': 1154 },
+  { href: './html/Angry Birds/index.html', imgSrc: 'angry birds.png', name: 'Angry Birds' , 'page': 1, 'id': 1154, tags: ['new'] },
+  { href: './html/doge2048/index.html', imgSrc: 'doge2048.png', name: 'Doge2048' , 'page': 1, 'id': 1155, tags: ['new'], externalUrl: 'https://doge2048.com/' },
   { href: './html/sans fight/index.html', imgSrc: 'sans fight.png', name: 'Sans Fight' , 'page': 4, 'id': 944 },
   { href: './html/extreme off road cars/index.html', imgSrc: 'extreme off road cars.jpg', name: 'extreme off road cars' , 'page': 4, 'id': 941 },
   { href: './html/football legends/index.html', imgSrc: 'football legends.jpg', name: 'football legends' , 'page': 4, 'id': 946 },
@@ -888,7 +889,7 @@ export default [
   { href: "./html/alienhominid/index.html", imgSrc: "alienhominid.webp", name: "Alien Hominid" , 'id': 123, tags: ['']},
   { href: "./html/amidst-the-clouds/index.html", imgSrc: "amidst-the-clouds.webp", name: "Amidst the Clouds" , 'id': 122, tags: ['']},
   { href: "./html/avalanche/index.html", imgSrc: "avalanche.webp", name: "Avalanche" , 'id': 121, tags: ['']},
-  { href: "./html/backrooms/index.html", imgSrc: "backrooms.webp", name: "Backrooms" , 'id': 120, tags: ['']},
+  { href: "./html/backrooms/index.html", imgSrc: "backrooms.webp", name: "Backrooms" , 'id': 120, tags: ['new']},
   { href: "./html/bad-ice-cream/index.html", imgSrc: "bad-ice-cream.webp", name: "Bad Icecream" , 'id': 119, tags: ['']},
   { href: "./html/bad-ice-cream-2/index.html", imgSrc: "bad-ice-cream-2.webp", name: "Bad Icecream 2" , 'id': 118, tags: ['']},
   { href: "./html/bad-ice-cream-3/index.html", imgSrc: "bad-ice-cream-3.webp", name: "Bad Icecream 3" , 'id': 117, tags: ['']},

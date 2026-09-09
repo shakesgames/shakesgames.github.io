@@ -405,6 +405,35 @@
 		  border-color: #1e4d2b;
 		  color: #fdf6e3;
 		}
+		.alpha-btn.new-btn {
+		  width: auto;
+		  padding: 0 14px;
+		  background: #ffd700;
+		  border-color: #b8860b;
+		  color: #1e4d2b;
+		  letter-spacing: 0.5px;
+		}
+		.alpha-btn.new-btn.active {
+		  background: #1e4d2b;
+		  border-color: #ffd700;
+		  color: #ffd700;
+		}
+		.new-badge {
+		  position: absolute;
+		  top: 6px;
+		  left: 6px;
+		  z-index: 2;
+		  background: #ffd700;
+		  color: #1e4d2b;
+		  border: 1px solid rgba(30, 77, 43, 0.4);
+		  font-family: var(--ff);
+		  font-size: 0.65rem;
+		  font-weight: 700;
+		  letter-spacing: 0.5px;
+		  padding: 2px 6px;
+		  border-radius: 4px;
+		  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+		}
 		.ghost-card {
 		  background: #f3ead1;
 		  animation: pulse 1.5s infinite ease-in-out;
@@ -1404,9 +1433,11 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 					{ adjustedHref, adjustedImgSrc } = getAdjustedUrls(href, imgSrc, page),
 					gameLink = `./play/?id=${id}`,
 					normalized = normalizeGameName(name),
-					displayName = toTitleCase(name);
+					displayName = toTitleCase(name),
+					isNew = Array.isArray(game.tags) && game.tags.includes("new");
 				return `
-          <a href="${gameLink}" class="card" data-game-id="${normalized}" data-page="${page}">
+          <a href="${gameLink}" class="card" data-game-id="${normalized}" data-page="${page}" data-new="${isNew ? "true" : "false"}">
+            ${isNew ? '<span class="new-badge">NEW</span>' : ""}
             <img src="${adjustedImgSrc}" alt="${displayName}" loading="lazy">
             <figcaption>${displayName}</figcaption>
           </a>
@@ -1432,6 +1463,7 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 			let activeFilter = null;
 			function cardMatchesFilter(card) {
 				if (activeFilter === null) return true;
+				if (activeFilter === "new") return card.getAttribute("data-new") === "true";
 				const first = (card.getAttribute("data-game-id") || "")[0] || "";
 				return activeFilter === "#" ? /[0-9]/.test(first) : first === activeFilter;
 			}
@@ -1446,6 +1478,13 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 				}
 			}
 			if (alphabetFilter) {
+				const newBtn = document.createElement("button");
+				newBtn.className = "alpha-btn new-btn";
+				newBtn.type = "button";
+				newBtn.dataset.filter = "new";
+				newBtn.textContent = "NEW";
+				newBtn.title = "Show NEW games";
+				alphabetFilter.appendChild(newBtn);
 				"abcdefghijklmnopqrstuvwxyz".split("").forEach(l => {
 					const btn = document.createElement("button");
 					btn.className = "alpha-btn";

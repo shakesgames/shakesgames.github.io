@@ -296,6 +296,11 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
       }
 
+      #gameTitle a {
+        color: #1e4d2b;
+        text-decoration: underline;
+      }
+
       .fullscreen-button {
         padding: 10px 20px;
         background-color: #1e4d2b;
@@ -861,6 +866,15 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
             page
           );
           embedGame(embedPath, toTitleCase(selectedGame.name));
+
+          if (selectedGame.externalUrl) {
+            gameTitleElement.innerHTML =
+              '<a href="' +
+              selectedGame.externalUrl +
+              '" target="_blank" rel="noopener">' +
+              toTitleCase(selectedGame.name) +
+              "</a>";
+          }
 
           fullscreenButton.addEventListener("click", function () {
             if (gameContainer.requestFullscreen) {
