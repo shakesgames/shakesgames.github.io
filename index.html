@@ -676,6 +676,138 @@
 		  align-items: center;
 		  gap: 4px;
 		}
+		.page-h1 {
+		  text-align: center;
+		  color: var(--sg-text, #1e4d2b);
+		  font-size: 2rem;
+		  margin: 10px 20px 0;
+		  line-height: 1.3;
+		}
+		.intro-wrap {
+		  position: relative;
+		  max-width: 850px;
+		  margin: 10px auto 0;
+		  padding: 0 20px;
+		  text-align: center;
+		}
+		.intro-text {
+		  display: inline;
+		  color: var(--sg-text, #1e4d2b);
+		  line-height: 1.6;
+		  font-size: 1.05rem;
+		}
+		.intro-wrap.is-collapsed {
+		  max-height: 3.4em;
+		  overflow: hidden;
+		}
+		.intro-wrap.is-collapsed::after {
+		  content: "";
+		  position: absolute;
+		  left: 0;
+		  right: 0;
+		  bottom: 0;
+		  height: 1.6em;
+		  background: linear-gradient(to bottom, transparent, var(--sg-bg, #fdf6e3));
+		  pointer-events: none;
+		}
+		.intro-text a {
+		  color: inherit;
+		  font-weight: 700;
+		}
+		.expand-btn {
+		  display: inline;
+		  float: right;
+		  margin: 0 0 6px 10px;
+		  background: none;
+		  border: none;
+		  padding: 2px 4px;
+		  color: var(--sg-text, #1e4d2b);
+		  font-weight: 700;
+		  font-size: 0.95rem;
+		  font-family: var(--ff);
+		  text-decoration: underline;
+		}
+		.info-section {
+		  max-width: 900px;
+		  margin: 30px auto;
+		  padding: 0 20px;
+		}
+		.info-section > h2 {
+		  font-size: 1.8rem;
+		  margin: 0 0 20px;
+		}
+		.info-box {
+		  background: var(--sg-panel2, #f3ead1);
+		  border: 1px solid var(--sg-panel-border, rgba(30, 77, 43, 0.35));
+		  padding: 20px 24px;
+		  margin-bottom: 20px;
+		}
+		.info-box h2 {
+		  color: var(--sg-panel-text, #1e4d2b) !important;
+		  font-size: 1.5rem;
+		  margin: 0 0 10px;
+		}
+		.info-box p {
+		  color: var(--sg-panel-text, #1e4d2b);
+		  line-height: 1.6;
+		  margin: 0;
+		}
+		.info-box a {
+		  color: var(--sg-panel-text, #1e4d2b);
+		  font-weight: 700;
+		}
+		.faq-item {
+		  background: var(--sg-panel2, #f3ead1);
+		  border: 1px solid var(--sg-panel-border, rgba(30, 77, 43, 0.35));
+		  padding: 16px 20px;
+		  margin-bottom: 14px;
+		}
+		.faq-item summary {
+		  color: var(--sg-panel-text, #1e4d2b);
+		  font-weight: 700;
+		  font-size: 1.15rem;
+		  line-height: 1.4;
+		}
+		.faq-item[open] summary {
+		  margin-bottom: 8px;
+		}
+		.faq-item p {
+		  color: var(--sg-panel-text, #1e4d2b);
+		  line-height: 1.6;
+		  margin: 0;
+		}
+		.site-footer {
+		  background: var(--sg-panel, #f3ead1);
+		  border-top: 3px solid var(--sg-accent, #1e4d2b);
+		  margin-top: 40px;
+		  padding: 24px 20px;
+		  text-align: center;
+		}
+		.site-footer nav {
+		  display: flex;
+		  flex-wrap: wrap;
+		  justify-content: center;
+		  align-items: center;
+		  gap: 10px;
+		  margin-bottom: 12px;
+		}
+		.site-footer nav a {
+		  color: var(--sg-panel-text, #1e4d2b);
+		  font-weight: 700;
+		  text-decoration: none;
+		}
+		.site-footer nav a:hover {
+		  text-decoration: underline;
+		}
+		.site-footer nav span {
+		  color: var(--sg-panel-text, #1e4d2b);
+		  opacity: 0.5;
+		}
+		.site-footer p {
+		  color: var(--sg-panel-text, #1e4d2b);
+		  margin: 0;
+		  font-size: 0.95rem;
+		}
 		#topGameList {
 		  max-width: 1600px;
 		  margin: 0 auto;
@@ -1160,6 +1292,7 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="canonical" href="https://shakesgames.github.io/" />
+		<meta name="description" content="Play 1000+ free unblocked games on Shake's Games (Shakes Games). No downloads, works at school and home. New games added often. Join our Discord for updates!" />
 		<meta property="og:type" content="website" />
 		<meta property="og:description" content="Unblocked Educational Games At School And Home for free"/>
 		<meta property="og:image" content="img/shakesgameslogo.png" />
@@ -1168,10 +1301,29 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 				"@context": "https://schema.org",
 				"@type": "WebSite",
 				"name": "ShakesGames",
+				"alternateName": ["Shake's Games", "Shakes Games", "Shake Games"],
 				"url": "https://shakesgames.github.io/"
 			}
 		</script>
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "FAQPage",
+				"mainEntity": [
+					{"@type": "Question", "name": "What is Shake's Games (Shakes Games)?", "acceptedAnswer": {"@type": "Answer", "text": "Shake's Games, often searched as Shakes Games or Shake Games, is a free unblocked games website with 1000+ browser games you can play instantly with no downloads, installs or sign-ups."}},
+					{"@type": "Question", "name": "Are all the games on Shakes Games free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every game on Shake's Games is 100% free to play in your browser on Chromebook, PC, Mac and mobile, and new games are added often."}},
+					{"@type": "Question", "name": "Can I play Shake's Games unblocked at school?", "acceptedAnswer": {"@type": "Answer", "text": "Shake's Games is designed to work at school and at home with no downloads required. If a game won't load on your school network, check the Discord server for updates and alternate links."}},
+					{"@type": "Question", "name": "What are the most popular games on Shakes Games?", "acceptedAnswer": {"@type": "Answer", "text": "Popular games include Slope, Drive Mad, Subway Surfers, Backrooms, Angry Birds Slingshot Frenzy, Doge2048, Bad Ice Cream, Fruit Ninja, Monkey Mart, Papa's Pizzeria games, Temple Run and Moto X3M."}},
+					{"@type": "Question", "name": "How do I request a new game?", "acceptedAnswer": {"@type": "Answer", "text": "Join the Discord server and tell us which game you want added. If it runs in a browser, the team will try to add it to Shake's Games."}},
+					{"@type": "Question", "name": "Do I need to download or install anything to play?", "acceptedAnswer": {"@type": "Answer", "text": "No. All games on Shake's Games run directly in your web browser, so the site works on school Chromebooks where installs are blocked."}}
+				]
+			}
+		</script>
 		<link rel="icon" type="image/png" href="img/shakesgameslogo.png" id="faviconLink" />
+		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+		<!-- Robust tab icon: correct paths from any page, no grey globe after
+		     switching tabs, and automatic fallback if a cloak URL breaks. -->
+		<script src="favicon.js"></script>
 		<script src="theme.js"></script>
 		<script>
 			async function getAllIndexedDBData() {
@@ -1294,18 +1446,78 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 			</div>
 		</div>
 		<div class="updates-text-container">
+			<h1 class="page-h1">Shake's Games | Play Free Unblocked Games Online</h1>
 			<img
 				class="hero-gif"
 				src="img/shakes.gif"
-				alt=""
+				alt="Play free unblocked games at Shake's Games"
 			/>
 			<p class="updates-paragraph-text">𝓣𝓸 𝓹𝓵𝓪𝔂 𝓸𝓻 𝓷𝓸𝓽 𝓽𝓸 𝓹𝓵𝓪𝔂?</p>
+			<div class="intro-wrap is-collapsed" id="introWrap">
+				<button class="expand-btn" id="introToggle" aria-expanded="false" aria-controls="introText">Read more</button>
+				<p class="intro-text" id="introText">Explore 1000+ free unblocked games on Shake's Games (Shakes Games), filtered from A to Z. Check out our New games added recently, including Backrooms, Angry Birds Slingshot Frenzy and Doge2048. We have heaps of popular games like Slope, Drive Mad, Bad Ice Cream, Fruit Ninja, Subway Surfers, Mario, Monkey Mart, Wordle, Doodle Jump, Papa Louies’ games and much more. Request new games on <a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord</a>!</p>
+			</div>
+			<noscript><style>.intro-wrap.is-collapsed{max-height:none;overflow:visible;}.intro-wrap.is-collapsed::after{display:none;}#introToggle{display:none;}</style></noscript>
 		</div>
 
 
 		<div class="alphabet-filter" id="alphabetFilter"></div>
 
 		<div class="games-grid" id="allList"></div>
+
+		<section class="info-section" aria-label="Frequently asked questions">
+			<h2>Frequently Asked Questions About Shake's Games</h2>
+			<details class="faq-item" open>
+				<summary>What is Shake's Games (Shakes Games)?</summary>
+				<p>Shake's Games, often searched as Shakes Games or Shake Games, is a free unblocked games website with 1000+ browser games you can play instantly. There are no downloads, no installs and no sign-ups — just pick a game like Slope, Subway Surfers or Drive Mad and start playing at school or home.</p>
+			</details>
+			<details class="faq-item">
+				<summary>Are all the games on Shakes Games free?</summary>
+				<p>Yes. Every game on Shake's Games is 100% free to play in your browser on Chromebook, PC, Mac and mobile. New games are added often, and you can hit the Random Game button if you can't decide what to play next.</p>
+			</details>
+			<details class="faq-item">
+				<summary>Can I play Shake's Games unblocked at school?</summary>
+				<p>Shake's Games is designed to work at school and at home with no downloads required. If a game won't load on your school network, try a different game, check our Discord server for updates and alternate links, or request a version that works for you.</p>
+			</details>
+			<details class="faq-item">
+				<summary>What are the most popular games on Shakes Games?</summary>
+				<p>Some of the most played games include Slope, Drive Mad, Subway Surfers, Backrooms, Angry Birds Slingshot Frenzy, Doge2048, Bad Ice Cream, Fruit Ninja, Monkey Mart, Papa's Pizzeria games, Temple Run and Moto X3M. Use the A–Z filter above the games list to browse everything from A to Z.</p>
+			</details>
+			<details class="faq-item">
+				<summary>How do I request a new game?</summary>
+				<p>Join our Discord server and tell us which game you want added. If it runs in a browser, we'll try to add it to Shake's Games.</p>
+			</details>
+			<details class="faq-item">
+				<summary>Do I need to download or install anything to play?</summary>
+				<p>No. All games on Shake's Games run directly in your web browser, so there is nothing to install and nothing to update. That also means the site works on school Chromebooks where installs are blocked.</p>
+			</details>
+		</section>
+
+		<section class="info-section" aria-label="Report a bug">
+			<div class="info-box">
+				<h2>Report a bug</h2>
+				<p>Write a bug report on our <a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord server</a>.</p>
+			</div>
+			<div class="info-box">
+				<h2>Contact us</h2>
+				<p>You can contact us via our contact form (coming soon) or on <a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord</a>.</p>
+			</div>
+		</section>
+
+		<footer class="site-footer">
+			<nav aria-label="Footer">
+				<a href="./index.html">Shake's Games</a>
+				<span>|</span>
+				<a href="./about.html">About Shakes Games</a>
+				<span>|</span>
+				<a href="https://www.youtube.com/@shakespearsgames/" target="_blank" rel="noopener">YouTube</a>
+				<span>|</span>
+				<a href="https://www.tiktok.com/@shakesgamesubg" target="_blank" rel="noopener">TikTok</a>
+				<span>|</span>
+				<a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord</a>
+			</nav>
+			<p>© 2026 Shake's Games — Play free unblocked games online.</p>
+		</footer>
 
 
 		<div class="modal-overlay" id="settingsOverlay" style="display: none">
@@ -1635,18 +1847,19 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 			});
 			(function () {
 				var defaultTitle = "ShakesGames",
-					defaultFavicon = "img/shakesgameslogo.png",
+					defaultFavicon = (window.SGFavicon && window.SGFavicon.defaultUrl) || "img/shakesgameslogo.png",
 					titleInput = document.getElementById("customTitleInput"),
 					faviconInput = document.getElementById("customFaviconInput"),
 					resetTitleBtn = document.getElementById("resetTitleBtn"),
-					resetFaviconBtn = document.getElementById("resetFaviconBtn"),
-					faviconEl = document.querySelector('link[rel="icon"]');
+					resetFaviconBtn = document.getElementById("resetFaviconBtn");
 				localStorage.getItem("customTitle")
 					? ((document.title = localStorage.getItem("customTitle")),
 					  (titleInput.value = localStorage.getItem("customTitle")))
 					: (titleInput.value = defaultTitle),
 					localStorage.getItem("customFavicon")
-						? ((faviconEl.href = localStorage.getItem("customFavicon")),
+						? (window.SGFavicon
+								? window.SGFavicon.set(localStorage.getItem("customFavicon"), false)
+								: null,
 						  (faviconInput.value = localStorage.getItem("customFavicon")))
 						: (faviconInput.value = defaultFavicon),
 					titleInput.addEventListener("change", function () {
@@ -1659,7 +1872,9 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 						var e = faviconInput.value.trim();
 						e === "" && ((e = defaultFavicon), (faviconInput.value = defaultFavicon)),
 							localStorage.setItem("customFavicon", e),
-							(faviconEl.href = e);
+							window.SGFavicon
+								? window.SGFavicon.set(e, false)
+								: ((document.querySelector('link[rel="icon"]') || {}).href = e);
 					}),
 					resetTitleBtn.addEventListener("click", function () {
 						localStorage.removeItem("customTitle"),
@@ -1668,32 +1883,16 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 					}),
 					resetFaviconBtn.addEventListener("click", function () {
 						localStorage.removeItem("customFavicon"),
-							(faviconEl.href = defaultFavicon),
+							window.SGFavicon
+								? window.SGFavicon.reset()
+								: ((document.querySelector('link[rel="icon"]') || {}).href = defaultFavicon),
 							(faviconInput.value = defaultFavicon);
 					});
 			})();
 		</script>
 
 
-		<div
-			style="
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        font-size: 1px;
-        line-height: 1px;
-        user-select: none;
-        pointer-events: none;
-      "
-			draggable="false"
-		>
-			educational platform, learning resources, academic tools, educational games, student
-			resources, school-friendly content, learning tools, interactive education, student
-			access
-		</div>
+		<!-- Hidden keyword-stuffed block removed for Google policy compliance (was a 1px invisible div). -->
 
 		<div
 			id="panicBtn"
@@ -1725,8 +1924,11 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 						localStorage.setItem("customTitle", title);
 						localStorage.setItem("customFavicon", favicon);
 						document.title = title;
-						const el = document.querySelector('link[rel="icon"]');
-						if (el) el.href = favicon;
+						if (window.SGFavicon) window.SGFavicon.set(favicon, false);
+						else {
+							const el = document.querySelector('link[rel="icon"]');
+							if (el) el.href = favicon;
+						}
 						const tInput = document.getElementById("customTitleInput");
 						const fInput = document.getElementById("customFaviconInput");
 						if (tInput) tInput.value = title;
@@ -1876,6 +2078,19 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 					const t = window.SGTheme.generate();
 					window.SGTheme.save(t);
 					window.SGTheme.apply(t);
+				});
+			});
+		</script>
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const b = document.getElementById("introToggle");
+				if (!b) return;
+				b.addEventListener("click", () => {
+					const wrap = b.closest(".intro-wrap");
+					if (!wrap) return;
+					const collapsed = wrap.classList.toggle("is-collapsed");
+					b.textContent = collapsed ? "Read more" : "Show less";
+					b.setAttribute("aria-expanded", String(!collapsed));
 				});
 			});
 		</script>

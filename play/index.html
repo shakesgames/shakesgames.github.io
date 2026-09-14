@@ -28,24 +28,15 @@
             clearInterval(titleInterval);
           }, 15000);
         }
-        setTimeout(function () {
-          var customFavicon = localStorage.getItem("customFavicon");
-          if (customFavicon && customFavicon.trim() !== "") {
-            var favEl = document.querySelector('link[rel*="icon"]');
-            if (favEl) {
-              favEl.href = customFavicon;
-            } else {
-              var newFav = document.createElement("link");
-              newFav.rel = "icon";
-              newFav.href = customFavicon;
-              document.head.appendChild(newFav);
-            }
-          }
-        }, 2500);
       })();
     </script>
     <title>Loading... - Shake's Games</title>
-		<link rel="icon" type="image/png" href="../img/shakesgameslogo.png" />
+		<link rel="icon" type="image/png" href="../img/shakesgameslogo.png" id="faviconLink" />
+		<link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+    <!-- Keeps the tab icon correct on /play/, fixes cloaked icons that used to
+         resolve to a 404 here and re-asserts the icon when the tab regains
+         focus (the grey-globe bug). -->
+    <script src="../favicon.js"></script>
     <script src="../theme.js"></script>
     <style>
       body {
@@ -376,6 +367,38 @@
       #redirectMessage a {
         color: #1e4d2b;
         text-decoration: underline;
+      }
+      .site-footer {
+        background: var(--sg-panel, #f3ead1);
+        border-top: 3px solid var(--sg-accent, #1e4d2b);
+        margin-top: 40px;
+        padding: 24px 20px;
+        text-align: center;
+      }
+      .site-footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .site-footer nav a {
+        color: var(--sg-panel-text, #1e4d2b);
+        font-weight: bold;
+        text-decoration: none;
+      }
+      .site-footer nav a:hover {
+        text-decoration: underline;
+      }
+      .site-footer nav span {
+        color: var(--sg-panel-text, #1e4d2b);
+        opacity: 0.5;
+      }
+      .site-footer p {
+        color: var(--sg-panel-text, #1e4d2b);
+        margin: 0;
+        font-size: 0.95rem;
       }
 
       @media (max-width: 768px) {
@@ -797,6 +820,9 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
           iframe.src = gamePath;
           iframe.onload = function () {
             iframe.contentWindow.focus();
+            // The game document is same-origin: Chrome re-reads the tab icon
+            // when it finishes loading, so re-assert ours straight after.
+            if (window.SGFavicon) window.SGFavicon.refresh();
           };
           gameContainer.innerHTML = "";
           gameContainer.appendChild(iframe);
@@ -1072,6 +1098,20 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
         </div>
       </div>
     </div>
+    <footer class="site-footer">
+      <nav aria-label="Footer">
+        <a href="../index.html">Shake's Games</a>
+        <span>|</span>
+        <a href="../about.html">About Shakes Games</a>
+        <span>|</span>
+        <a href="https://www.youtube.com/@shakespearsgames/" target="_blank" rel="noopener">YouTube</a>
+        <span>|</span>
+        <a href="https://www.tiktok.com/@shakesgamesubg" target="_blank" rel="noopener">TikTok</a>
+        <span>|</span>
+        <a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord</a>
+      </nav>
+      <p>© 2026 Shake's Games — Play free unblocked games online.</p>
+    </footer>
     <div
       id="panicBtn"
       title="Panic! (Ctrl+Shift+X)"
@@ -1115,8 +1155,11 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
             localStorage.setItem("customTitle", parts[0]);
             localStorage.setItem("customFavicon", parts[1]);
             document.title = parts[0];
-            var el = document.querySelector('link[rel="icon"]');
-            if (el) el.href = parts[1];
+            if (window.SGFavicon) window.SGFavicon.set(parts[1], false);
+            else {
+              var el = document.querySelector('link[rel="icon"]');
+              if (el) el.href = parts[1];
+            }
           });
         });
         var panicToggle = document.getElementById("panicToggle");

@@ -14,6 +14,24 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>404 - Page Not Found</title>
 		<link rel="icon" type="image/png" href="img/shakesgameslogo.png" />
+		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+		<script>
+			// 404.html can be served for *any* path, so relative URLs are not
+			// reliable here. Resolve the site root and load the favicon manager
+			// (and set the icon) from an absolute URL.
+			(function () {
+				var m = location.pathname.match(/^\/(shakesgames(?:-?\d+)?)(?:\/|$)/);
+				var root = location.origin + (m ? "/" + m[1] : "") + "/";
+				var icon = document.createElement("link");
+				icon.rel = "icon";
+				icon.type = "image/png";
+				icon.href = root + "img/shakesgameslogo.png";
+				document.head.appendChild(icon);
+				var s = document.createElement("script");
+				s.src = root + "favicon.js";
+				document.head.appendChild(s);
+			})();
+		</script>
 		<style>
 			html, body {
 			  margin: 0;
@@ -96,6 +114,37 @@
 			  color: black;
 			}
 
+			.site-footer {
+			  margin-top: 30px;
+			  padding: 20px;
+			  text-align: center;
+			}
+			.site-footer nav {
+			  display: flex;
+			  flex-wrap: wrap;
+			  justify-content: center;
+			  align-items: center;
+			  gap: 10px;
+			  margin-bottom: 12px;
+			}
+			.site-footer nav a {
+			  color: var(--sg-panel-text, #1e4d2b);
+			  font-weight: bold;
+			  text-decoration: none;
+			}
+			.site-footer nav a:hover {
+			  text-decoration: underline;
+			}
+			.site-footer nav span {
+			  color: var(--sg-panel-text, #1e4d2b);
+			  opacity: 0.5;
+			}
+			.site-footer p {
+			  color: var(--sg-panel-text, #1e4d2b);
+			  margin: 0;
+			  font-size: 0.95rem;
+			}
+
 			/* Responsive adjustments */
 			@media (max-width: 600px) {
 			  header .logo-text {
@@ -127,6 +176,20 @@
 			<div class="btn-container">
 				<a class="btn" href="about.html">Report the Issue</a>
 			</div>
+			<footer class="site-footer">
+				<nav aria-label="Footer">
+					<a href="index.html">Shake's Games</a>
+					<span>|</span>
+					<a href="about.html">About Shakes Games</a>
+					<span>|</span>
+					<a href="https://www.youtube.com/@shakespearsgames/" target="_blank" rel="noopener">YouTube</a>
+					<span>|</span>
+					<a href="https://www.tiktok.com/@shakesgamesubg" target="_blank" rel="noopener">TikTok</a>
+					<span>|</span>
+					<a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord</a>
+				</nav>
+				<p>© 2026 Shake's Games — Play free unblocked games online.</p>
+			</footer>
 		</div>
 	</body>
 </html>

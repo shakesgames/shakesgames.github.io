@@ -14,6 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>About | Shake's Games</title>
 		<link rel="icon" type="image/png" href="img/shakesgameslogo.png" />
+		<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+		<script src="favicon.js"></script>
     <script src="theme.js"></script>
     <style>
       body {
@@ -178,6 +180,38 @@
       }
       .discord-btn:hover {
         background: #e9dbb4;
+      }
+      .site-footer {
+        background: var(--sg-panel, #f3ead1);
+        border-top: 3px solid var(--sg-accent, #1e4d2b);
+        margin-top: 40px;
+        padding: 24px 20px;
+        text-align: center;
+      }
+      .site-footer nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+      .site-footer nav a {
+        color: var(--sg-panel-text, #1e4d2b);
+        font-weight: 700;
+        text-decoration: none;
+      }
+      .site-footer nav a:hover {
+        text-decoration: underline;
+      }
+      .site-footer nav span {
+        color: var(--sg-panel-text, #1e4d2b);
+        opacity: 0.5;
+      }
+      .site-footer p {
+        color: var(--sg-panel-text, #1e4d2b);
+        margin: 0;
+        font-size: 0.95rem;
       }
       .modal-overlay {
         position: fixed;
@@ -399,13 +433,14 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
       <div class="card">
         <h2>What is Shake's Games?</h2>
         <p>
-          Shake's Games is an awesome free unblocked games site.
+          Shake's Games (commonly spelled Shakes Games) is an awesome free UBG site. We have over a thousand free unblocked games, including many popular games like Drive Mad, Backrooms, Paper Minecraft, Slope, Among Us, Temple Run, Papas Pizzeria, Subway Surfers, Bitlife, Solitaire, Crossyroad, Pacman, Flappy Bird, Minesweeper and many more! We add new games often. You can request more games on our Discord server.
         </p>
       </div>
       <div class="card">
         <h2>Features</h2>
         <ul>
           <li>1000+ unblocked games</li>
+          <li>Random game button to help you choose what to play</li>
           <li>Tab cloaking (disguise the tab as Google, Classroom, Canvas, …)</li>
           <li>Panic button + <strong>Ctrl+Shift+X</strong> quick escape</li>
           <li>Open-in-about:blank mode</li>
@@ -420,7 +455,28 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
         <!-- Put your Discord invite link here (replace href="#") -->
         <a href="https://discord.com/invite/gsHYEN2uYR" class="discord-btn" target="_blank" rel="noopener">Discord</a>
       </div>
+      <div class="card">
+        <h2>Contact us</h2>
+        <p>
+          You can contact us via our contact form (coming soon) or on <a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord</a>.
+        </p>
       </div>
+      </div>
+
+    <footer class="site-footer">
+      <nav aria-label="Footer">
+        <a href="./index.html">Shake's Games</a>
+        <span>|</span>
+        <a href="./about.html">About Shakes Games</a>
+        <span>|</span>
+        <a href="https://www.youtube.com/@shakespearsgames/" target="_blank" rel="noopener">YouTube</a>
+        <span>|</span>
+        <a href="https://www.tiktok.com/@shakesgamesubg" target="_blank" rel="noopener">TikTok</a>
+        <span>|</span>
+        <a href="https://discord.com/invite/gsHYEN2uYR" target="_blank" rel="noopener">Discord</a>
+      </nav>
+      <p>© 2026 Shake's Games — Play free unblocked games online.</p>
+    </footer>
 
     <div
       id="panicBtn"
@@ -493,8 +549,11 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
           localStorage.setItem("customTitle", title);
           localStorage.setItem("customFavicon", favicon);
           document.title = title;
-          const el = document.querySelector('link[rel="icon"]');
-          if (el) el.href = favicon;
+          if (window.SGFavicon) window.SGFavicon.set(favicon, false);
+          else {
+            const el = document.querySelector('link[rel="icon"]');
+            if (el) el.href = favicon;
+          }
           const tInput = document.getElementById("customTitleInput");
           const fInput = document.getElementById("customFaviconInput");
           if (tInput) tInput.value = title;
@@ -504,18 +563,19 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
 
       (function () {
         var defaultTitle = "ShakesGames",
-          defaultFavicon = "img/shakesgameslogo.png",
+          defaultFavicon = (window.SGFavicon && window.SGFavicon.defaultUrl) || "img/shakesgameslogo.png",
           titleInput = document.getElementById("customTitleInput"),
           faviconInput = document.getElementById("customFaviconInput"),
           resetTitleBtn = document.getElementById("resetTitleBtn"),
-          resetFaviconBtn = document.getElementById("resetFaviconBtn"),
-          faviconEl = document.querySelector('link[rel="icon"]');
+          resetFaviconBtn = document.getElementById("resetFaviconBtn");
         localStorage.getItem("customTitle")
           ? ((document.title = localStorage.getItem("customTitle")),
             (titleInput.value = localStorage.getItem("customTitle")))
           : (titleInput.value = defaultTitle),
           localStorage.getItem("customFavicon")
-            ? ((faviconEl.href = localStorage.getItem("customFavicon")),
+            ? (window.SGFavicon
+                ? window.SGFavicon.set(localStorage.getItem("customFavicon"), false)
+                : null,
               (faviconInput.value = localStorage.getItem("customFavicon")))
             : (faviconInput.value = defaultFavicon),
           titleInput.addEventListener("change", function () {
@@ -528,7 +588,9 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
             var e = faviconInput.value.trim();
             e === "" && ((e = defaultFavicon), (faviconInput.value = defaultFavicon)),
               localStorage.setItem("customFavicon", e),
-              (faviconEl.href = e);
+              window.SGFavicon
+                ? window.SGFavicon.set(e, false)
+                : ((document.querySelector('link[rel="icon"]') || {}).href = e);
           }),
           resetTitleBtn.addEventListener("click", function () {
             localStorage.removeItem("customTitle"),
@@ -537,7 +599,9 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
           }),
           resetFaviconBtn.addEventListener("click", function () {
             localStorage.removeItem("customFavicon"),
-              (faviconEl.href = defaultFavicon),
+              window.SGFavicon
+                ? window.SGFavicon.reset()
+                : ((document.querySelector('link[rel="icon"]') || {}).href = defaultFavicon),
               (faviconInput.value = defaultFavicon);
           });
       })();

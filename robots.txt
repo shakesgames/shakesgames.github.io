@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://shakesgames.github.io/sitemap.xml
