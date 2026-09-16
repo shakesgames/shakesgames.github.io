@@ -31,6 +31,7 @@
       })();
     </script>
     <title>Loading... - Shake's Games</title>
+    <meta name="description" content="Play free unblocked games on Shake's Games. No downloads, works at school and home." />
 		<link rel="icon" type="image/png" href="../img/shakesgameslogo.png" id="faviconLink" />
 		<link rel="apple-touch-icon" href="../apple-touch-icon.png" />
     <!-- Keeps the tab icon correct on /play/, fixes cloaked icons that used to
@@ -287,6 +288,11 @@
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
       }
 
+      #gameTitle {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0;
+      }
       #gameTitle a {
         color: #1e4d2b;
         text-decoration: underline;
@@ -644,7 +650,7 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
   </head>
   <body>
     <div class="header">
-      <a href="../index.html" style="text-decoration: none"><h1 class="site-title">Shake's Games</h1></a>
+      <a href="../index.html" style="text-decoration: none"><div class="site-title">Shake's Games</div></a>
       <div class="search-container">
         <input
           type="text"
@@ -668,7 +674,7 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
     </div>
 
     <div class="game-bar">
-      <span id="gameTitle">Loading...</span>
+      <h1 id="gameTitle">Loading...</h1>
       <button id="fullscreenButton" class="fullscreen-button">
         Fullscreen
       </button>
@@ -815,6 +821,15 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
           }
         }
 
+        function setMetaDescription(content) {
+          let meta = document.querySelector('meta[name="description"]');
+          if (!meta) {
+            meta = document.createElement("meta");
+            meta.setAttribute("name", "description");
+            document.head.appendChild(meta);
+          }
+          meta.setAttribute("content", content);
+        }
         function embedGame(gamePath, title) {
           const iframe = document.createElement("iframe");
           iframe.src = gamePath;
@@ -828,6 +843,7 @@ a, button, input, select, summary, label, details, [role="button"], [tabindex], 
           gameContainer.appendChild(iframe);
           gameTitleElement.textContent = title;
           document.title = title + " - ShakesGames";
+          setMetaDescription("Play " + title + " free and unblocked on Shake's Games. No downloads, works on Chromebook, PC and mobile.");
 
         }
 
