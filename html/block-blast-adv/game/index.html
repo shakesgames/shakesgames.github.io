@@ -158,11 +158,12 @@
     border:1px solid rgba(255,255,255,.08);
     border-radius:var(--radius);
     padding:10px 8px 12px;
-    display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;
+    display:flex;flex-wrap:wrap;gap:6px;
     min-height:132px;
   }
   .slot{
     display:flex;align-items:center;justify-content:center;
+    flex:1 1 0;min-width:0;
     min-height:108px;border-radius:10px;
     touch-action:none;
   }
@@ -495,23 +496,69 @@
     }
     return null;
   }
+  // every tray holds 3 never-identical pieces: same shape is only
+  // allowed when the color is different (shape+color pair must be unique)
+  function pieceKey(p){
+    const minR=Math.min(...p.cells.map(q=>q[0])),minC=Math.min(...p.cells.map(q=>q[1]));
+    const norm=p.cells.map(([r,c])=>(r-minR)+'_'+(c-minC)).sort().join('|');
+    return p.h+'x'+p.w+':'+norm+':'+p.color;
+  }
+  function trayUnique(t){return new Set(t.map(pieceKey)).size===t.length;}
+  function rollUnique(allowSingle,used){
+    for(let a=0;a<50;a++){
+      const p=randomPiece(allowSingle),k=pieceKey(p);
+      if(!used.has(k)){used.add(k);return p;}
+    }
+    // last resort: force an unused color onto a fresh shape
+    const p=randomPiece(allowSingle);
+    for(let c=0;c<8;c++){
+      const k=pieceKey({cells:p.cells,h:p.h,w:p.w,color:c});
+      if(!used.has(k)){p.color=c;used.add(k);return p;}
+    }
+    used.add(pieceKey(p));return p;
+  }
   function dealTray(){
     const allowSingle=dealCount>=NO_SINGLE_DEALS;
     const completable=anyCompleterExists();
     for(let a=0;a<60;a++){
       const t=[randomPiece(allowSingle),randomPiece(allowSingle),randomPiece(allowSingle)];
+      if(!trayUnique(t))continue;
       if(completable){if(t.some(wouldCompleteLine)){dealCount++;return t;}}
       else if(t.some(fitsAnywhere)){dealCount++;return t;}
     }
-    // fallback: construct a tray around one guaranteed-good piece
+    // fallback: construct a tray around one guaranteed-good piece,
+    // keeping every piece unique
     if(completable){
-      const comp=findCompleterPiece(allowSingle);
-      if(comp){dealCount++;return[comp,randomPiece(allowSingle),randomPiece(allowSingle)];}
+      // rare edge: the only line-finisher is a single square while singles
+      // are still withheld early on — allow one single so the tray can clear
+      const comp=findCompleterPiece(allowSingle)||(!allowSingle&&findCompleterPiece(true));
+      if(comp){
+        const used=new Set([pieceKey(comp)]);dealCount++;
+        return[comp,rollUnique(allowSingle,used),rollUnique(allowSingle,used)];
+      }
     }
     const fit=findFittingPiece(allowSingle);
     dealCount++;
-    return fit?[fit,randomPiece(allowSingle),randomPiece(allowSingle)]
-               :[randomPiece(true),randomPiece(true),randomPiece(true)];
+    if(fit){
+      const used=new Set([pieceKey(fit)]);
+      return[fit,rollUnique(allowSingle,used),rollUnique(allowSingle,used)];
+    }
+    const used=new Set();
+    return[rollUnique(true,used),rollUnique(true,used),rollUnique(true,used)];
+  }
+  // responsive tray: any piece that overflows its slot drops onto its own
+  // row underneath instead of squeezing or clipping
+  function fitTray(){
+    const slots=[...trayEl.children];
+    if(!slots.length)return;
+    for(let pass=0;pass<2;pass++){
+      const over=slots.map(slot=>{
+        const pe=slot.firstElementChild;
+        if(!pe)return false;
+        return pe.scrollWidth>slot.clientWidth+2||pe.scrollHeight>slot.clientHeight+2;
+      });
+      slots.forEach((slot,i)=>{slot.style.flexBasis=over[i]?'100%':'';});
+    }
   }
 
   function newGame(){
@@ -628,6 +675,7 @@
       slot.appendChild(pe);
       trayEl.appendChild(slot);
     });
+    requestAnimationFrame(fitTray);
   }
 
   function canPlace(p,r0,c0){
@@ -910,6 +958,7 @@
   document.getElementById('soundBtn').onclick=function(){soundOn=!soundOn;this.textContent=soundOn?'🔊':'🔇';if(soundOn)sndPlace();};
   // allow embedding pages to restart via postMessage
   window.addEventListener('message',e=>{if(e.data==='restart')newGame();});
+  window.addEventListener('resize',()=>{fitTray();});
 
   applyTheme(themeIdx);
   buildBoard();
